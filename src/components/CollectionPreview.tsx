@@ -1,32 +1,32 @@
 import { useState } from "react";
-import product1 from "@/assets/product-1.jpg";
-import product2 from "@/assets/product-2.jpg";
-import product3 from "@/assets/product-3.jpg";
+import arcadiaBlack from "@/assets/arcadia-black-1.jpg";
+import arcadiaGreen from "@/assets/arcadia-green-1.jpg";
+import arcadiaDuo from "@/assets/arcadia-duo.jpg";
 
 const products = [
   {
     id: 1,
-    name: "Quantum Jacket",
-    fabric: "Technical Nylon",
+    name: "ARCADIA Tee",
+    fabric: "Premium Cotton",
     silhouette: "Oversized",
-    price: "₦185,000",
-    image: product1,
+    price: "₦35,000",
+    image: arcadiaBlack,
   },
   {
     id: 2,
-    name: "Indigo Cargo",
-    fabric: "Premium Cotton Blend",
-    silhouette: "Relaxed Fit",
-    price: "₦95,000",
-    image: product2,
+    name: "ARCADIA Tee",
+    fabric: "Premium Cotton",
+    silhouette: "Oversized",
+    price: "₦35,000",
+    image: arcadiaGreen,
   },
   {
     id: 3,
-    name: "Essence Tee",
-    fabric: "Organic Cotton",
-    silhouette: "Oversized",
-    price: "₦45,000",
-    image: product3,
+    name: "ARCADIA Collection",
+    fabric: "Premium Cotton",
+    silhouette: "Unisex Fit",
+    price: "₦35,000",
+    image: arcadiaDuo,
   },
 ];
 

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import heroBackground from "@/assets/hero-background.jpg";
+import logoMain from "@/assets/logo-main.jpg";
 
 export const Hero = () => {
   return (
@@ -17,6 +18,13 @@ export const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
+        <div className="mb-8 flex justify-center">
+          <img 
+            src={logoMain} 
+            alt="HEAVEN MADE" 
+            className="w-48 md:w-64 lg:w-80 h-auto animate-fade-in"
+          />
+        </div>
         <h1 className="font-playfair text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
           HEAVEN MADE
         </h1>
