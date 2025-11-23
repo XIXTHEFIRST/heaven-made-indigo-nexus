@@ -1,12 +1,12 @@
 import { useRef } from "react";
-import lookbook1 from "@/assets/lookbook-1.jpg";
-import lookbook2 from "@/assets/lookbook-2.jpg";
-import lookbook3 from "@/assets/lookbook-3.jpg";
+import arcadiaBlack2 from "@/assets/arcadia-black-2.jpg";
+import arcadiaGreen2 from "@/assets/arcadia-green-2.jpg";
+import arcadiaDuo from "@/assets/arcadia-duo.jpg";
 
 const lookbookImages = [
-  { id: 1, src: lookbook1, alt: "Lagos street style editorial" },
-  { id: 2, src: lookbook2, alt: "Fashion in motion" },
-  { id: 3, src: lookbook3, alt: "Fabric details closeup" },
+  { id: 1, src: arcadiaBlack2, alt: "ARCADIA Black Tee - Lagos Streets" },
+  { id: 2, src: arcadiaGreen2, alt: "ARCADIA Green Tee - Urban Culture" },
+  { id: 3, src: arcadiaDuo, alt: "ARCADIA Collection - Street Luxury" },
 ];
 
 export const Lookbook = () => {
