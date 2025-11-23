@@ -18,20 +18,17 @@ export const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
-        <div className="mb-8 flex justify-center">
+        <div className="mb-12 flex justify-center">
           <img 
             src={logoMain} 
             alt="HEAVEN MADE" 
-            className="w-48 md:w-64 lg:w-80 h-auto animate-fade-in"
+            className="w-[70vw] md:w-[50vw] lg:w-[40vw] max-w-3xl h-auto animate-fade-in drop-shadow-2xl"
           />
         </div>
-        <h1 className="font-playfair text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
-          HEAVEN MADE
-        </h1>
-        <p className="font-playfair text-2xl md:text-4xl lg:text-5xl mb-4 text-foreground/90 italic">
+        <p className="font-playfair text-xl md:text-3xl lg:text-4xl mb-3 text-foreground/90 italic">
           Fashion in Motion, Culture in Splash
         </p>
-        <p className="font-inter text-lg md:text-xl mb-12 text-muted-foreground max-w-2xl mx-auto">
+        <p className="font-inter text-base md:text-lg mb-12 text-muted-foreground max-w-2xl mx-auto">
           A Lagos-bred fashion and art house shaping future culture.
         </p>
         <Button variant="hero" size="lg" className="text-lg px-12 py-6 h-auto">
