@@ -18,13 +18,6 @@ export const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center animate-fade-in-up">
-        <div className="mb-12 flex justify-center">
-          <img 
-            src={logoMain} 
-            alt="HEAVEN MADE" 
-            className="w-[70vw] md:w-[50vw] lg:w-[40vw] max-w-3xl h-auto animate-fade-in drop-shadow-2xl"
-          />
-        </div>
         <p className="font-playfair text-xl md:text-3xl lg:text-4xl mb-3 text-foreground/90 italic">
           Fashion in Motion, Culture in Splash
         </p>
