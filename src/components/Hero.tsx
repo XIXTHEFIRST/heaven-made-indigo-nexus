@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import heroBackground from "@/assets/hero-background.jpg";
+import heroCross from "@/assets/hero-cross.jpg";
 import logoMain from "@/assets/logo-main.jpg";
 
 export const Hero = () => {
@@ -8,12 +8,12 @@ export const Hero = () => {
       {/* Background Image with Vignette */}
       <div className="absolute inset-0">
         <img
-          src={heroBackground}
-          alt="HEAVEN MADE fashion aesthetic"
+          src={heroCross}
+          alt="HEAVEN MADE cross symbol"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/30 to-background" />
-        <div className="absolute inset-0 bg-gradient-glow animate-glow-pulse" />
+        <div className="absolute inset-0 bg-background/60" />
+        <div className="absolute inset-0 bg-gradient-glow animate-glow-pulse opacity-30" />
       </div>
 
       {/* Content */}
