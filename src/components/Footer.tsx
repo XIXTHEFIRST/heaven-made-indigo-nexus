@@ -1,4 +1,4 @@
-import { Instagram, Twitter, Facebook } from "lucide-react";
+import { Instagram, X, MessageCircle } from "lucide-react";
 
 export const Footer = () => {
   return (
@@ -27,9 +27,18 @@ export const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-accent transition-colors duration-300"
-                aria-label="Twitter"
+                aria-label="X (Twitter)"
               >
-                <Twitter size={22} strokeWidth={1.5} />
+                <X size={22} strokeWidth={1.5} />
+              </a>
+              <a
+                href="https://wa.me/2349019273154"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-accent transition-colors duration-300"
+                aria-label="WhatsApp"
+              >
+                <MessageCircle size={22} strokeWidth={1.5} />
               </a>
             </div>
           </div>
