@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import indigoAtelier from "@/assets/indigo-atelier.jpg";
+import indigoAtelierFlyer from "@/assets/indigo-atelier-flyer.png";
 
 export const IndigoAtelier = () => {
   return (
@@ -7,8 +7,8 @@ export const IndigoAtelier = () => {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src={indigoAtelier}
-          alt="INDIGO ATELIER 2025"
+          src={indigoAtelierFlyer}
+          alt="INDIGO ATELIER POP UP RAVE"
           className="w-full h-full object-cover scale-105"
         />
         <div className="absolute inset-0 bg-gradient-overlay" />
