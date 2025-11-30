@@ -25,7 +25,7 @@ export const EmailCapture = () => {
           <div className="space-y-6">
             <div className="w-16 h-px bg-accent mx-auto" />
             <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl font-light">
-              Join the <span className="italic text-accent">Haven</span>
+              Bringing the <span className="italic text-accent">Future</span> to You
             </h2>
             <p className="font-sans text-lg md:text-xl text-muted-foreground font-light tracking-wide max-w-xl mx-auto">
               Exclusive drops, early access to collections, and curated culture
