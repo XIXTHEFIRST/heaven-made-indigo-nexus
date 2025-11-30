@@ -36,7 +36,7 @@ export const Hero = () => {
           style={{ scale }}
           poster={heroCross}
         >
-          <source src={heroVideo} type="video/mp4" />
+          <source src={heroVideo} type="video/quicktime" />
         </motion.video>
 
         {/* Gradient Overlays */}
