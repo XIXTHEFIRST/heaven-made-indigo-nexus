@@ -14,25 +14,22 @@ export const Footer = () => {
             </p>
             <div className="flex gap-5 pt-4">
               <a
-                href="#"
+                href="https://instagram.com/heaven.made"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-accent transition-colors duration-300"
                 aria-label="Instagram"
               >
                 <Instagram size={22} strokeWidth={1.5} />
               </a>
               <a
-                href="#"
+                href="https://x.com/madeinheav3n1"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-accent transition-colors duration-300"
                 aria-label="Twitter"
               >
                 <Twitter size={22} strokeWidth={1.5} />
-              </a>
-              <a
-                href="#"
-                className="text-muted-foreground hover:text-accent transition-colors duration-300"
-                aria-label="Facebook"
-              >
-                <Facebook size={22} strokeWidth={1.5} />
               </a>
             </div>
           </div>
@@ -94,6 +91,14 @@ export const Footer = () => {
               </h4>
               <ul className="font-sans space-y-3 text-sm text-muted-foreground font-light">
                 <li>Lagos, Nigeria</li>
+                <li>
+                  <a
+                    href="tel:+2349019273154"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    +234 901 927 3154
+                  </a>
+                </li>
                 <li>
                   <a
                     href="mailto:hello@heavenmade.com"
