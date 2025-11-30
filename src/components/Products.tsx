@@ -62,54 +62,57 @@ export const Products = () => {
   }
 
   return (
-    <section id="shop" className="py-20 px-6 bg-background">
+    <section id="shop" className="py-12 md:py-20 px-4 md:px-6 bg-background">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12 md:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Shop Collection</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4">Shop Collection</h2>
+          <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto px-4">
             Discover our curated selection of premium pieces
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {products.map((product, index) => (
             <motion.div
               key={product.node.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className="animate-fade-in"
             >
               <Link to={`/product/${product.node.handle}`}>
-                <div className="group cursor-pointer">
-                  <div className="relative aspect-[3/4] overflow-hidden bg-secondary/20 rounded-lg mb-4">
+                <div className="group cursor-pointer touch-manipulation">
+                  <div className="relative aspect-[3/4] overflow-hidden bg-secondary/20 rounded-lg mb-3 md:mb-4">
                     {product.node.images.edges[0]?.node && (
                       <motion.img
                         src={product.node.images.edges[0].node.url}
                         alt={product.node.title}
                         className="w-full h-full object-cover"
                         whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.4 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ duration: 0.3 }}
+                        loading="lazy"
                       />
                     )}
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 group-active:bg-black/30 transition-colors duration-300" />
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
+                  <div className="space-y-1 md:space-y-2">
+                    <h3 className="font-semibold text-sm md:text-base lg:text-lg group-hover:text-primary transition-colors line-clamp-1">
                       {product.node.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm line-clamp-2">
+                    <p className="text-muted-foreground text-xs md:text-sm line-clamp-2 hidden md:block">
                       {product.node.description}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-xl font-bold">
+                      <span className="text-base md:text-lg lg:text-xl font-bold">
                         {product.node.priceRange.minVariantPrice.currencyCode}{' '}
                         {parseFloat(product.node.priceRange.minVariantPrice.amount).toFixed(2)}
                       </span>
@@ -123,7 +126,7 @@ export const Products = () => {
                   e.preventDefault();
                   handleAddToCart(product);
                 }}
-                className="w-full mt-4"
+                className="w-full mt-3 md:mt-4 text-xs md:text-sm touch-manipulation"
                 variant="outline"
               >
                 Add to Cart
