@@ -10,7 +10,7 @@ export const BrandStory = () => {
               <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl font-light leading-[1.1]">
                 Designed from
                 <br />
-                <span className="italic text-accent">the Edges</span>
+                <span className="italic text-accent">the Soul</span>
               </h2>
             </div>
           </div>
@@ -18,12 +18,12 @@ export const BrandStory = () => {
           {/* Right: Description */}
           <div className="space-y-8 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
             <p className="font-sans text-xl md:text-2xl text-muted-foreground leading-relaxed font-light">
-              We design from the edges—where street culture, contemporary art, and
+              We design from the soul—where street culture, contemporary art, and
               futurism collide into something wholly original.
             </p>
             <p className="font-sans text-lg text-muted-foreground/80 leading-relaxed font-light">
               Each piece carries intention, personality, and narrative depth. This
-              isn't just fashion; it's a cultural statement born from Lagos and
+              isn&apos;t just fashion; it&apos;s a cultural statement born from Lagos and
               spoken to the world.
             </p>
           </div>

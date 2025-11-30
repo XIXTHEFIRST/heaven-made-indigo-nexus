@@ -9,7 +9,7 @@ export const Footer = () => {
           <div className="md:col-span-5 space-y-6">
             <h3 className="font-serif text-4xl font-bold tracking-tight">HEAVEN MADE</h3>
             <p className="font-sans text-sm text-muted-foreground font-light leading-relaxed max-w-md">
-              A Lagos-bred fashion and art house designing from the edges, where
+              A Lagos-bred fashion and art house designing from the soul, where
               street culture meets futuristic vision.
             </p>
             <div className="flex gap-5 pt-4">
