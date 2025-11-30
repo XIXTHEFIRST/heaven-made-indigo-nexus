@@ -34,38 +34,52 @@ export const CollectionPreview = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   return (
-    <section className="py-24 md:py-32 px-4 bg-charcoal/50">
+    <section id="collections" className="py-32 md:py-48 px-6 lg:px-12 bg-charcoal-rich/30">
       <div className="container mx-auto">
-        <h2 className="font-playfair text-3xl md:text-5xl font-bold mb-16 text-center animate-fade-in">
-          Featured Collection
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Header */}
+        <div className="mb-20 max-w-3xl animate-fade-in">
+          <div className="w-16 h-px bg-accent mb-6" />
+          <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl font-light mb-6">
+            Featured Collection
+          </h2>
+          <p className="font-sans text-lg text-muted-foreground font-light tracking-wide">
+            ARCADIA — Where urban energy meets timeless design
+          </p>
+        </div>
+
+        {/* Products Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {products.map((product, index) => (
             <div
               key={product.id}
-              className="group relative overflow-hidden rounded-lg animate-fade-in"
-              style={{ animationDelay: `${index * 0.2}s` }}
+              className="group relative animate-fade-in"
+              style={{ animationDelay: `${index * 0.15}s` }}
               onMouseEnter={() => setHoveredId(product.id)}
               onMouseLeave={() => setHoveredId(null)}
             >
-              <div className="aspect-[4/5] overflow-hidden bg-muted">
+              {/* Image Container */}
+              <div className="relative aspect-[3/4] overflow-hidden bg-muted mb-6">
                 <img
                   src={product.image}
                   alt={product.name}
                   className={`w-full h-full object-cover transition-all duration-700 ${
-                    hoveredId === product.id ? "scale-110" : "scale-100"
+                    hoveredId === product.id ? "scale-105" : "scale-100"
                   }`}
                 />
+                {hoveredId === product.id && (
+                  <div className="absolute inset-0 bg-gradient-glow pointer-events-none" />
+                )}
               </div>
-              {hoveredId === product.id && (
-                <div className="absolute inset-0 bg-gradient-glow pointer-events-none" />
-              )}
-              <div className="mt-4 space-y-2">
-                <h3 className="font-playfair text-2xl font-bold">{product.name}</h3>
-                <p className="font-inter text-sm text-muted-foreground">
+
+              {/* Product Info */}
+              <div className="space-y-3">
+                <h3 className="font-serif text-3xl font-light tracking-tight">
+                  {product.name}
+                </h3>
+                <p className="font-sans text-sm tracking-wider uppercase text-muted-foreground">
                   {product.fabric} • {product.silhouette}
                 </p>
-                <p className="font-inter text-lg text-accent">{product.price}</p>
+                <p className="font-sans text-xl text-accent font-light">{product.price}</p>
               </div>
             </div>
           ))}

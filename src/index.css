@@ -8,51 +8,61 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 240 10% 8%;
-    --foreground: 40 10% 96%;
+    --background: 0 0% 4%;
+    --foreground: 40 5% 98%;
 
-    --card: 240 8% 12%;
-    --card-foreground: 40 10% 96%;
+    --card: 240 5% 8%;
+    --card-foreground: 40 5% 98%;
 
-    --popover: 240 8% 10%;
-    --popover-foreground: 40 10% 96%;
+    --popover: 240 5% 8%;
+    --popover-foreground: 40 5% 98%;
 
-    --primary: 243 75% 45%;
-    --primary-foreground: 40 10% 98%;
+    --primary: 243 85% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 5% 20%;
-    --secondary-foreground: 40 10% 96%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 40 5% 98%;
 
-    --muted: 240 5% 18%;
-    --muted-foreground: 40 5% 65%;
+    --muted: 240 4% 12%;
+    --muted-foreground: 40 4% 70%;
 
-    --accent: 243 90% 60%;
-    --accent-foreground: 240 10% 8%;
+    --accent: 243 95% 65%;
+    --accent-foreground: 0 0% 4%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 40 10% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 240 8% 20%;
-    --input: 240 8% 18%;
-    --ring: 243 75% 45%;
+    --border: 240 6% 14%;
+    --input: 240 6% 12%;
+    --ring: 243 85% 55%;
 
-    --radius: 0.5rem;
+    --radius: 0rem;
 
-    /* Custom HEAVEN MADE tokens */
-    --indigo-deep: 243 75% 45%;
-    --indigo-bright: 243 90% 60%;
-    --charcoal: 240 8% 12%;
-    --off-white: 40 10% 96%;
+    /* Luxury Brand Tokens */
+    --indigo-vibrant: 243 95% 65%;
+    --indigo-deep: 243 85% 55%;
+    --indigo-darker: 243 75% 35%;
+    --charcoal-rich: 240 5% 8%;
+    --charcoal-deep: 0 0% 4%;
+    --ivory: 40 5% 98%;
+    --silver: 240 3% 85%;
     
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(243 75% 20%) 0%, hsl(240 8% 8%) 100%);
-    --gradient-glow: radial-gradient(circle at center, hsl(243 90% 60% / 0.15) 0%, transparent 70%);
+    /* Premium Gradients */
+    --gradient-luxury: linear-gradient(135deg, hsl(243 95% 65% / 0.05) 0%, hsl(0 0% 4%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(243 95% 65% / 0.12) 0%, transparent 65%);
+    --gradient-overlay: linear-gradient(180deg, hsl(0 0% 4% / 0) 0%, hsl(0 0% 4% / 0.8) 100%);
     
-    /* Shadows */
-    --shadow-glow: 0 0 40px hsl(243 90% 60% / 0.3);
-    --shadow-premium: 0 20px 60px -15px hsl(240 10% 0% / 0.5);
+    /* Premium Shadows */
+    --shadow-luxury: 0 25px 50px -12px hsl(0 0% 0% / 0.6);
+    --shadow-glow: 0 0 60px hsl(243 95% 65% / 0.25);
+    --shadow-subtle: 0 4px 20px hsl(0 0% 0% / 0.3);
+    
+    /* Premium Spacing */
+    --spacing-section: 8rem;
+    --spacing-container: 10rem;
     
     /* Transitions */
+    --transition-luxury: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -68,6 +78,8 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "kern" 1, "liga" 1;
+    letter-spacing: -0.01em;
   }
 }
