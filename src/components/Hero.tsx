@@ -1,65 +1,96 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import heroCross from "@/assets/hero-cross.jpg";
 
 export const Hero = () => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const scale = useTransform(scrollY, [0, 500], [1, 1.1]);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   return (
     <section className="relative overflow-hidden">
-      {/* Cross Image Section with Parallax */}
-      <div className="relative h-[70vh] md:h-screen">
+      {/* Video Background with Fallback */}
+      <div className="relative h-[100vh] md:h-screen">
+        {/* Fallback Image - shown until video loads or on slow connections */}
         <motion.img
           src={heroCross}
           alt="HEAVEN MADE cross symbol"
-          className="w-full h-full object-cover"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+            videoLoaded ? 'opacity-0' : 'opacity-100'
+          }`}
           style={{ y }}
         />
+        
+        {/* Video Background - hidden on mobile for performance */}
+        <motion.video
+          autoPlay
+          loop
+          muted
+          playsInline
+          onLoadedData={() => setVideoLoaded(true)}
+          className="hidden md:block absolute inset-0 w-full h-full object-cover"
+          style={{ scale }}
+          poster={heroCross}
+        >
+          <source src="https://cdn.pixabay.com/video/2024/01/30/198999-909298032_large.mp4" type="video/mp4" />
+        </motion.video>
+
+        {/* Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-overlay" />
         <div className="absolute inset-0 bg-gradient-glow animate-glow-pulse" />
-      </div>
-
-      {/* Content Section Below Image */}
-      <motion.div
-        style={{ opacity }}
-        className="relative py-24 md:py-32 px-6 lg:px-12 bg-background"
-      >
-        <div className="container mx-auto text-center">
-          <div className="max-w-5xl mx-auto space-y-8">
+        
+        {/* Mobile-optimized Content Overlay */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="absolute inset-0 flex items-center justify-center px-4 md:px-6"
+        >
+          <div className="text-center max-w-4xl">
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.8 }}
+              className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6"
+            >
+              HEAVEN MADE
+            </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              className="font-sans text-base md:text-lg lg:text-xl tracking-wide text-muted-foreground max-w-2xl mx-auto font-light"
+              transition={{ delay: 0.9, duration: 0.8 }}
+              className="font-sans text-sm md:text-base lg:text-lg tracking-wide text-white/90 max-w-2xl mx-auto font-light mb-8"
             >
               A Lagos-bred fashion and art house shaping future culture through
-              boundary-pushing design and narrative-driven collections.
+              boundary-pushing design
             </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              className="pt-6"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1.1, duration: 0.6 }}
             >
               <Button
                 variant="luxury"
                 size="lg"
-                className="font-sans text-xs tracking-[0.2em] uppercase px-16 py-7 h-auto group relative overflow-hidden"
+                className="font-sans text-xs md:text-sm tracking-[0.2em] uppercase px-8 md:px-16 py-6 md:py-7 h-auto group relative overflow-hidden touch-manipulation"
               >
                 <span className="relative z-10">Enter the Atelier</span>
                 <motion.div
                   className="absolute inset-0 bg-ivory"
                   initial={{ x: "-100%" }}
                   whileHover={{ x: 0 }}
+                  whileTap={{ x: 0 }}
                   transition={{ duration: 0.3 }}
                 />
               </Button>
             </motion.div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
+
 
       {/* Minimal Scroll Indicator */}
       <motion.div

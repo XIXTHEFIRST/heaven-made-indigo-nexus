@@ -2,6 +2,7 @@ import { CustomCursor } from "@/components/CustomCursor";
 import { ExperimentalNavigation } from "@/components/ExperimentalNavigation";
 import { Hero } from "@/components/Hero";
 import { BrandStory } from "@/components/BrandStory";
+import { VideoShowcase } from "@/components/VideoShowcase";
 import { Products } from "@/components/Products";
 import { ExperimentalCollectionPreview } from "@/components/ExperimentalCollectionPreview";
 import { IndigoAtelier } from "@/components/IndigoAtelier";
@@ -16,6 +17,7 @@ const Index = () => {
       <ExperimentalNavigation />
       <Hero />
       <BrandStory />
+      <VideoShowcase />
       <Products />
       <ExperimentalCollectionPreview />
       <IndigoAtelier />

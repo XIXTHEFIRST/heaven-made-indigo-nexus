@@ -82,9 +82,58 @@ All colors MUST be HSL.
     font-feature-settings: "kern" 1, "liga" 1;
     letter-spacing: -0.01em;
     cursor: none;
+    /* Mobile optimizations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: pan-y;
   }
 
   * {
     cursor: none;
+  }
+
+  /* Mobile-specific optimizations */
+  @media (max-width: 768px) {
+    * {
+      cursor: auto !important;
+    }
+    
+    body {
+      cursor: auto !important;
+      /* Better touch scrolling */
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Faster tap response */
+    a, button, [role="button"] {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Prevent text selection on tap */
+    * {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* But allow selection on text content */
+    p, h1, h2, h3, h4, h5, h6, span, li {
+      -webkit-user-select: text;
+      user-select: text;
+    }
+
+    /* Optimize animations for mobile */
+    * {
+      will-change: auto !important;
+    }
+  }
+
+  /* Video optimization */
+  video {
+    object-fit: cover;
+    /* Prevent video from causing layout shift */
+    max-width: 100%;
+    height: auto;
   }
 }
