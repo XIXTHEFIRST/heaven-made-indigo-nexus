@@ -18,11 +18,6 @@ export const Hero = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 lg:px-12 text-center">
         <div className="max-w-5xl mx-auto space-y-8 animate-fade-in-up">
-          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light italic tracking-tight leading-[0.95] text-ivory">
-            Fashion in Motion,
-            <br />
-            <span className="text-accent">Culture in Splash</span>
-          </h1>
           <p className="font-sans text-base md:text-lg lg:text-xl tracking-wide text-silver/90 max-w-2xl mx-auto font-light">
             A Lagos-bred fashion and art house shaping future culture through
             boundary-pushing design and narrative-driven collections.
