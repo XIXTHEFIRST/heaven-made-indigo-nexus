@@ -61,15 +61,14 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        indigo: {
-          vibrant: "hsl(var(--indigo-vibrant))",
-          deep: "hsl(var(--indigo-deep))",
-          darker: "hsl(var(--indigo-darker))",
-          bright: "hsl(var(--indigo-bright))",
+        orange: {
+          vibrant: "hsl(var(--orange-vibrant))",
+          deep: "hsl(var(--orange-deep))",
+          darker: "hsl(var(--orange-darker))",
         },
-        charcoal: {
-          rich: "hsl(var(--charcoal-rich))",
-          deep: "hsl(var(--charcoal-deep))",
+        black: {
+          rich: "hsl(var(--black-rich))",
+          deep: "hsl(var(--black-deep))",
         },
         ivory: "hsl(var(--ivory))",
         silver: "hsl(var(--silver))",
