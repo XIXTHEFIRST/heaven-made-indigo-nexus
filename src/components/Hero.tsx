@@ -3,33 +3,35 @@ import heroCross from "@/assets/hero-cross.jpg";
 
 export const Hero = () => {
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Premium Vignette */}
-      <div className="absolute inset-0">
+    <section className="relative overflow-hidden">
+      {/* Cross Image Section */}
+      <div className="relative h-[70vh] md:h-screen">
         <img
           src={heroCross}
           alt="HEAVEN MADE cross symbol"
-          className="w-full h-full object-cover scale-105"
+          className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-overlay" />
         <div className="absolute inset-0 bg-gradient-glow animate-glow-pulse" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 lg:px-12 text-center">
-        <div className="max-w-5xl mx-auto space-y-8 animate-fade-in-up">
-          <p className="font-sans text-base md:text-lg lg:text-xl tracking-wide text-silver/90 max-w-2xl mx-auto font-light">
-            A Lagos-bred fashion and art house shaping future culture through
-            boundary-pushing design and narrative-driven collections.
-          </p>
-          <div className="pt-6">
-            <Button
-              variant="luxury"
-              size="lg"
-              className="font-sans text-xs tracking-[0.2em] uppercase px-16 py-7 h-auto"
-            >
-              Enter the Atelier
-            </Button>
+      {/* Content Section Below Image */}
+      <div className="relative py-24 md:py-32 px-6 lg:px-12 bg-background">
+        <div className="container mx-auto text-center">
+          <div className="max-w-5xl mx-auto space-y-8 animate-fade-in-up">
+            <p className="font-sans text-base md:text-lg lg:text-xl tracking-wide text-muted-foreground max-w-2xl mx-auto font-light">
+              A Lagos-bred fashion and art house shaping future culture through
+              boundary-pushing design and narrative-driven collections.
+            </p>
+            <div className="pt-6">
+              <Button
+                variant="luxury"
+                size="lg"
+                className="font-sans text-xs tracking-[0.2em] uppercase px-16 py-7 h-auto"
+              >
+                Enter the Atelier
+              </Button>
+            </div>
           </div>
         </div>
       </div>
