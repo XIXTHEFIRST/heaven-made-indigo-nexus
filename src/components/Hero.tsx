@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import heroCross from "@/assets/hero-cross.jpg";
+import heroVideo from "@/assets/hero-video.mov";
 
 export const Hero = () => {
   const { scrollY } = useScroll();
@@ -35,7 +36,7 @@ export const Hero = () => {
           style={{ scale }}
           poster={heroCross}
         >
-          <source src="https://cdn.pixabay.com/video/2024/01/30/198999-909298032_large.mp4" type="video/mp4" />
+          <source src={heroVideo} type="video/mp4" />
         </motion.video>
 
         {/* Gradient Overlays */}
