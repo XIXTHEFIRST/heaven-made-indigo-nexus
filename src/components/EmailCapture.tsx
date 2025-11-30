@@ -19,30 +19,41 @@ export const EmailCapture = () => {
   };
 
   return (
-    <section className="py-24 md:py-32 px-4 bg-charcoal/50">
-      <div className="container mx-auto max-w-2xl text-center">
-        <h2 className="font-playfair text-3xl md:text-5xl font-bold mb-6 animate-fade-in">
-          Join the Haven
-        </h2>
-        <p className="font-inter text-lg text-muted-foreground mb-12 animate-fade-in">
-          Exclusive drops, early access, and culture diaries.
-        </p>
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col md:flex-row gap-4 max-w-md mx-auto animate-fade-in-up"
-        >
-          <Input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="flex-1 bg-background/50 backdrop-blur-sm border-primary/30 focus:border-primary text-foreground placeholder:text-muted-foreground"
-          />
-          <Button type="submit" variant="premium" size="lg">
-            Sign Up
-          </Button>
-        </form>
+    <section className="py-32 md:py-48 px-6 lg:px-12 bg-charcoal-rich/30">
+      <div className="container mx-auto max-w-3xl text-center">
+        <div className="space-y-10 animate-fade-in">
+          <div className="space-y-6">
+            <div className="w-16 h-px bg-accent mx-auto" />
+            <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl font-light">
+              Join the <span className="italic text-accent">Haven</span>
+            </h2>
+            <p className="font-sans text-lg md:text-xl text-muted-foreground font-light tracking-wide max-w-xl mx-auto">
+              Exclusive drops, early access to collections, and curated culture
+              diaries delivered to your inbox.
+            </p>
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto animate-fade-in-up pt-6"
+          >
+            <Input
+              type="email"
+              placeholder="Your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="flex-1 h-14 bg-background/30 backdrop-blur-sm border-border/50 focus:border-accent text-foreground placeholder:text-muted-foreground/60 font-sans text-sm tracking-wide"
+            />
+            <Button
+              type="submit"
+              variant="luxury"
+              className="font-sans text-xs tracking-[0.2em] uppercase px-12 h-14"
+            >
+              Subscribe
+            </Button>
+          </form>
+        </div>
       </div>
     </section>
   );

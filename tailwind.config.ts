@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        playfair: ["Playfair Display", "serif"],
-        inter: ["Inter", "sans-serif"],
+        serif: ["Cormorant Garamond", "Georgia", "serif"],
+        sans: ["Montserrat", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -62,19 +62,27 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         indigo: {
+          vibrant: "hsl(var(--indigo-vibrant))",
           deep: "hsl(var(--indigo-deep))",
+          darker: "hsl(var(--indigo-darker))",
           bright: "hsl(var(--indigo-bright))",
         },
-        charcoal: "hsl(var(--charcoal))",
-        "off-white": "hsl(var(--off-white))",
+        charcoal: {
+          rich: "hsl(var(--charcoal-rich))",
+          deep: "hsl(var(--charcoal-deep))",
+        },
+        ivory: "hsl(var(--ivory))",
+        silver: "hsl(var(--silver))",
       },
       backgroundImage: {
-        "gradient-hero": "var(--gradient-hero)",
+        "gradient-luxury": "var(--gradient-luxury)",
         "gradient-glow": "var(--gradient-glow)",
+        "gradient-overlay": "var(--gradient-overlay)",
       },
       boxShadow: {
         glow: "var(--shadow-glow)",
-        premium: "var(--shadow-premium)",
+        luxury: "var(--shadow-luxury)",
+        subtle: "var(--shadow-subtle)",
       },
       borderRadius: {
         lg: "var(--radius)",
