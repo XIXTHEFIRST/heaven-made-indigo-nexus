@@ -81,5 +81,10 @@ All colors MUST be HSL.
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "kern" 1, "liga" 1;
     letter-spacing: -0.01em;
+    cursor: none;
+  }
+
+  * {
+    cursor: none;
   }
 }

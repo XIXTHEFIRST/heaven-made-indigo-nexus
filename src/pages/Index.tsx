@@ -1,7 +1,8 @@
-import { Navigation } from "@/components/Navigation";
+import { CustomCursor } from "@/components/CustomCursor";
+import { ExperimentalNavigation } from "@/components/ExperimentalNavigation";
 import { Hero } from "@/components/Hero";
 import { BrandStory } from "@/components/BrandStory";
-import { CollectionPreview } from "@/components/CollectionPreview";
+import { ExperimentalCollectionPreview } from "@/components/ExperimentalCollectionPreview";
 import { IndigoAtelier } from "@/components/IndigoAtelier";
 import { Lookbook } from "@/components/Lookbook";
 import { EmailCapture } from "@/components/EmailCapture";
@@ -9,11 +10,12 @@ import { Footer } from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen font-sans">
-      <Navigation />
+    <div className="min-h-screen font-sans cursor-none">
+      <CustomCursor />
+      <ExperimentalNavigation />
       <Hero />
       <BrandStory />
-      <CollectionPreview />
+      <ExperimentalCollectionPreview />
       <IndigoAtelier />
       <Lookbook />
       <EmailCapture />
