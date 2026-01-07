@@ -19,15 +19,45 @@ export default function ProductDetail() {
   useEffect(() => {
     const loadProduct = async () => {
       if (!handle) return;
-      
+
       try {
         const data = await getProductByHandle(handle);
+
+        // Custom option modifications
+        if (data) {
+          const upperTitle = data.title.toUpperCase();
+
+          if (upperTitle.includes("NOW & FOREVER")) {
+            data.options = data.options.map((opt: any) => {
+              if (opt.name === "Color") {
+                return {
+                  ...opt,
+                  values: opt.values.filter((v: string) => v !== "Light Blue")
+                };
+              }
+              return opt;
+            });
+          }
+
+          if (upperTitle.includes("ARCADIA")) {
+            data.options = data.options.map((opt: any) => {
+              if (opt.name === "Color" && !opt.values.includes("White")) {
+                return {
+                  ...opt,
+                  values: [...opt.values, "White"]
+                };
+              }
+              return opt;
+            });
+          }
+        }
+
         setProduct(data);
-        
+
         if (data?.variants?.edges?.[0]) {
           const firstVariant = data.variants.edges[0].node;
           setSelectedVariant(firstVariant);
-          
+
           const initialOptions: Record<string, string> = {};
           firstVariant.selectedOptions.forEach((option: any) => {
             initialOptions[option.name] = option.value;
@@ -49,7 +79,7 @@ export default function ProductDetail() {
     setSelectedOptions(newOptions);
 
     const variant = product.variants.edges.find((edge: any) => {
-      return edge.node.selectedOptions.every((option: any) => 
+      return edge.node.selectedOptions.every((option: any) =>
         newOptions[option.name] === option.value
       );
     });
@@ -96,7 +126,7 @@ export default function ProductDetail() {
   return (
     <div className="min-h-screen bg-background">
       <ExperimentalNavigation />
-      
+
       <div className="fixed top-6 right-6 z-40 flex gap-2">
         <CartDrawer />
       </div>
@@ -126,7 +156,7 @@ export default function ProductDetail() {
                   />
                 )}
               </div>
-              
+
               <div className="grid grid-cols-4 gap-2">
                 {product.images.edges.slice(1, 5).map((image: any, index: number) => (
                   <div key={index} className="aspect-square overflow-hidden rounded-md bg-secondary/20">
@@ -188,7 +218,7 @@ export default function ProductDetail() {
               </Button>
 
               <div className="border-t pt-6 space-y-4 text-sm text-muted-foreground">
-                <p>Free shipping on orders over $100</p>
+                <p>Free shipping on orders over ₦200,000</p>
                 <p>Secure checkout with Shopify</p>
                 <p>Easy returns within 30 days</p>
               </div>

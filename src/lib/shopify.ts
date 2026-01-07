@@ -31,7 +31,7 @@ export async function storefrontApiRequest(query: string, variables: any = {}) {
   }
 
   const data = await response.json();
-  
+
   if (data.errors) {
     throw new Error(`Error calling Shopify: ${data.errors.map((e: any) => e.message).join(', ')}`);
   }
@@ -91,7 +91,8 @@ const STOREFRONT_QUERY = `
 
 export async function getProducts(first: number = 50): Promise<ShopifyProduct[]> {
   const data = await storefrontApiRequest(STOREFRONT_QUERY, { first });
-  return data.data.products.edges;
+  const localEdges = LOCAL_PRODUCTS.map(p => ({ node: p }));
+  return [...localEdges, ...data.data.products.edges];
 }
 
 const PRODUCT_BY_HANDLE_QUERY = `
@@ -140,7 +141,156 @@ const PRODUCT_BY_HANDLE_QUERY = `
   }
 `;
 
+
+const LOCAL_PRODUCTS: any[] = [
+  {
+    id: "gid://shopify/Product/local-angels",
+    title: "ANGELS",
+    description: "Premium cotton tee featuring the bold ANGELS graphic design. Part of the latest collection.",
+    handle: "angels",
+    priceRange: {
+      minVariantPrice: {
+        amount: "35000.00",
+        currencyCode: "NGN"
+      }
+    },
+    images: {
+      edges: [
+        {
+          node: {
+            url: "/angels-tee.jpg",
+            altText: "ANGELS Tee"
+          }
+        }
+      ]
+    },
+    variants: {
+      edges: [
+        // White Variants
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v1",
+            title: "S / White",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "S" }, { name: "Color", value: "White" }]
+          }
+        },
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v2",
+            title: "M / White",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "M" }, { name: "Color", value: "White" }]
+          }
+        },
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v3",
+            title: "L / White",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "L" }, { name: "Color", value: "White" }]
+          }
+        },
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v4",
+            title: "XL / White",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "XL" }, { name: "Color", value: "White" }]
+          }
+        },
+        // Black Variants
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v5",
+            title: "S / Black",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "S" }, { name: "Color", value: "Black" }]
+          }
+        },
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v6",
+            title: "M / Black",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "M" }, { name: "Color", value: "Black" }]
+          }
+        },
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v7",
+            title: "L / Black",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "L" }, { name: "Color", value: "Black" }]
+          }
+        },
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v8",
+            title: "XL / Black",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "XL" }, { name: "Color", value: "Black" }]
+          }
+        },
+        // Yellow Variants
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v9",
+            title: "S / Yellow",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "S" }, { name: "Color", value: "Yellow" }]
+          }
+        },
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v10",
+            title: "M / Yellow",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "M" }, { name: "Color", value: "Yellow" }]
+          }
+        },
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v11",
+            title: "L / Yellow",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "L" }, { name: "Color", value: "Yellow" }]
+          }
+        },
+        {
+          node: {
+            id: "gid://shopify/ProductVariant/local-angels-v12",
+            title: "XL / Yellow",
+            price: { amount: "35000.00", currencyCode: "NGN" },
+            availableForSale: true,
+            selectedOptions: [{ name: "Size", value: "XL" }, { name: "Color", value: "Yellow" }]
+          }
+        }
+      ]
+    },
+    options: [
+      { name: "Size", values: ["S", "M", "L", "XL"] },
+      { name: "Color", values: ["White", "Black", "Yellow"] }
+    ]
+  }
+];
+
 export async function getProductByHandle(handle: string) {
+  const localProduct = LOCAL_PRODUCTS.find(p => p.handle === handle);
+  if (localProduct) {
+    return localProduct;
+  }
   const data = await storefrontApiRequest(PRODUCT_BY_HANDLE_QUERY, { handle });
   return data.data.productByHandle;
 }
@@ -207,7 +357,7 @@ export async function createStorefrontCheckout(items: CartItem[]): Promise<strin
     }
 
     const cart = cartData.data.cartCreate.cart;
-    
+
     if (!cart.checkoutUrl) {
       throw new Error('No checkout URL returned from Shopify');
     }

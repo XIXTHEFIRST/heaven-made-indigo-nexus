@@ -8,13 +8,23 @@ const navLinks = [
   { name: "Home", href: "/" },
   { name: "Story", href: "/#story" },
   { name: "Shop", href: "/#shop" },
-  { name: "Collections", href: "/#collections" },
+  { name: "Collections", href: "/#shop" },
   { name: "Lookbook", href: "/#lookbook" },
   { name: "Contact", href: "/#contact" },
 ];
 
 export const ExperimentalNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleLinkClick = (href: string) => {
+    setIsOpen(false);
+    if (href.startsWith("/#")) {
+      const id = href.split("#")[1];
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }, 300); // Wait for menu close animation
+    }
+  };
 
   return (
     <>
@@ -68,7 +78,7 @@ export const ExperimentalNavigation = () => {
                   >
                     <Link
                       to={link.href}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => handleLinkClick(link.href)}
                       className="group block"
                     >
                       <motion.h2

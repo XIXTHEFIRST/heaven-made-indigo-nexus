@@ -113,6 +113,9 @@ export const ExperimentalCollectionPreview = () => {
           variant="luxury"
           size="lg"
           className="font-sans text-xs tracking-[0.2em] uppercase px-16 py-7 h-auto"
+          onClick={() => {
+            document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
+          }}
         >
           Explore Collection
         </Button>
