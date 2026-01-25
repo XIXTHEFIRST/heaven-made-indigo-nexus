@@ -68,6 +68,7 @@ export default {
           darker: "hsl(var(--orange-darker))",
         },
         black: {
+          DEFAULT: "#000000",
           rich: "hsl(var(--black-rich))",
           deep: "hsl(var(--black-deep))",
         },
