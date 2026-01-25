@@ -30,7 +30,7 @@ export const Navigation = () => {
     return (
         <nav
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-                ? "bg-background/95 backdrop-blur-md border-b border-border/50"
+                ? "bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-sm"
                 : "bg-transparent"
                 }`}
         >
@@ -39,7 +39,7 @@ export const Navigation = () => {
                     {/* Logo */}
                     <Link
                         to={user ? "/dashboard" : "/"}
-                        className="font-serif text-2xl lg:text-3xl font-bold tracking-tight hover:text-emerald-700 transition-colors flex items-center gap-2"
+                        className="font-serif text-2xl lg:text-3xl font-bold tracking-tight text-slate-900 hover:text-emerald-700 transition-colors flex items-center gap-2"
                     >
                         <span className="text-emerald-700 font-serif">LAGOS</span> FASHION INTEL
                         <Badge variant="outline" className="hidden sm:flex ml-2 border-emerald-500/30 text-emerald-600 bg-emerald-50/50 text-[8px] uppercase tracking-tighter">DEAL FLOW READY</Badge>
@@ -75,7 +75,7 @@ export const Navigation = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="md:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-lg border-b border-border/50 shadow-2xl"
+                        className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-emerald-100 shadow-2xl"
                     >
                         <div className="container mx-auto px-6 py-8 space-y-4">
                             {navLinks.map((link, idx) => (

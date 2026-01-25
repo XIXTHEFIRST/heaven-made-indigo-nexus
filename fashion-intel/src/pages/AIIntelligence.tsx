@@ -84,7 +84,7 @@ const AIIntelligence = () => {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-emerald-500/30">
+        <div className="min-h-screen bg-background text-foreground selection:bg-emerald-500/30">
             <Navigation />
 
             <main className="pt-24 pb-12">
@@ -100,8 +100,8 @@ const AIIntelligence = () => {
                                 <Sparkles className="w-8 h-8" />
                             </div>
                             <div>
-                                <h1 className="text-4xl font-serif font-bold text-white">AI Competitive Intelligence</h1>
-                                <p className="text-zinc-400 italic">Neural insights for the Lagos fashion ecosystem</p>
+                                <h1 className="text-4xl font-serif font-bold text-emerald-950">AI Competitive Intelligence</h1>
+                                <p className="text-muted-foreground italic">Neural insights for the Lagos fashion ecosystem</p>
                             </div>
                         </div>
                     </motion.div>

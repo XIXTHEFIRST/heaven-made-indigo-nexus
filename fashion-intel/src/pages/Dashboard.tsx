@@ -70,14 +70,14 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-emerald-500/30">
+        <div className="min-h-screen bg-background text-foreground selection:bg-emerald-500/30">
             <Navigation />
 
             <main className="pt-24 pb-12">
                 <div className="container mx-auto px-6">
                     {/* Coach Identity Hero */}
-                    <div className="relative mb-12 p-1 md:p-12 rounded-[2.5rem] overflow-hidden border border-white/5">
-                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-black to-black z-0" />
+                    <div className="relative mb-12 p-1 md:p-12 rounded-[2.5rem] overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-background to-emerald-50/5 z-0" />
                         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=2574&auto=format&fit=crop')] opacity-5 mix-blend-overlay z-0" />
 
                         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
@@ -89,9 +89,9 @@ const Dashboard = () => {
                                 <Badge className="mb-6 bg-slate-900 text-white border-slate-900 px-4 py-1.5 text-xs font-bold uppercase tracking-widest">
                                     Coach Active • Analysis Ready
                                 </Badge>
-                                <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 leading-[1.1] text-white">
+                                <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 leading-[1.1] text-black">
                                     Master the Art of <br />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600">Sponsorship Intelligence</span>
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-500">Sponsorship Intelligence</span>
                                 </h1>
                                 <p className="text-xl text-muted-foreground mb-10 max-w-2xl leading-relaxed">
                                     Your personal AI partner for architecting high-impact fashion events in Lagos.
@@ -166,7 +166,7 @@ const Dashboard = () => {
                                                 value={`${totalEvents} Events`}
                                                 icon={Calendar}
                                                 trend={{ value: 100, isPositive: true }}
-                                                className="glass-premium border-white/10"
+                                                className="glass-dark border-white/5"
                                             />
                                         </motion.div>
                                         <motion.div variants={itemVariants}>
