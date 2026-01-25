@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -20,11 +20,26 @@ import { InsightType } from "@/types/intelligence";
 import { format } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 const AIIntelligence = () => {
-    const { aiInsights, matches } = useIntelligenceStore();
+    const { aiInsights, matches, refreshIntelligence, loading } = useIntelligenceStore();
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedType, setSelectedType] = useState<InsightType | "all">("all");
+
+    useEffect(() => {
+        if (aiInsights.length === 0) {
+            refreshIntelligence();
+        }
+    }, [aiInsights.length, refreshIntelligence]);
+
+    const handleRefresh = async () => {
+        toast.promise(refreshIntelligence(), {
+            loading: 'Synchronizing with Neural Grid...',
+            success: 'Market Intelligence Ready',
+            error: 'Connection Stalled'
+        });
+    };
 
     const exampleQueries = [
         "Which events have the highest ROI?",
@@ -130,8 +145,12 @@ const AIIntelligence = () => {
                                             className="pl-12 h-14 bg-white/50 border-emerald-100 text-lg rounded-2xl focus:ring-emerald-700/10 focus:border-emerald-700/30 transition-all font-medium"
                                         />
                                     </div>
-                                    <Button className="h-14 px-10 bg-emerald-700 hover:bg-emerald-800 rounded-2xl shadow-lg shadow-emerald-700/20 text-lg font-bold text-white">
-                                        Query AI
+                                    <Button
+                                        onClick={handleRefresh}
+                                        disabled={loading}
+                                        className="h-14 px-10 bg-emerald-700 hover:bg-emerald-800 rounded-2xl shadow-lg shadow-emerald-700/20 text-lg font-bold text-white transition-all disabled:opacity-50"
+                                    >
+                                        {loading ? "Neural Sync..." : "Query AI"}
                                     </Button>
                                 </div>
                                 <div className="flex flex-wrap gap-3 items-center">
@@ -335,7 +354,11 @@ const AIIntelligence = () => {
                                             Export Neural Insights
                                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-emerald-600" />
                                         </Button>
-                                        <Button variant="outline" className="w-full justify-between h-12 rounded-xl group hover:border-emerald-500 transition-all font-semibold text-emerald-900">
+                                        <Button
+                                            onClick={handleRefresh}
+                                            variant="outline"
+                                            className="w-full justify-between h-12 rounded-xl group hover:border-emerald-500 transition-all font-semibold text-emerald-900"
+                                        >
                                             Real-time Trend Synthesis
                                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-emerald-600" />
                                         </Button>

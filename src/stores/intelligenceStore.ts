@@ -74,6 +74,7 @@ interface IntelligenceState {
     generateStrategy: (eventId: string) => Promise<void>;
     sendMessage: (content: string) => Promise<void>;
     clearChat: () => void;
+    refreshIntelligence: () => Promise<void>;
 
     // Getters
     getFilteredEvents: () => Event[];
@@ -902,10 +903,26 @@ ${(event.intelSponsors || []).map(s => {
             const errorMsg = {
                 id: crypto.randomUUID(),
                 role: 'assistant' as const,
-                content: "My connection to the neural grid is flickering. Try again in 5 seconds—the intelligence is there, just temporarily obscured.",
+                content: "My connection to the neural grid is flickering. Ensure your Gemini API Key is active in Lovable Secrets. The intelligence is there, just temporarily obscured.",
                 timestamp: new Date()
             };
             set(state => ({ messages: [...state.messages, errorMsg] }));
+        }
+    },
+
+    refreshIntelligence: async () => {
+        const { events, sponsors } = get();
+        if (events.length === 0) return;
+
+        set({ loading: true });
+        try {
+            const { generateRealtimeInsights } = await import("@/services/geminiService");
+            const newInsights = await generateRealtimeInsights(events, sponsors);
+            set({ aiInsights: newInsights, loading: false });
+            toast.success("Market Intelligence Synchronized");
+        } catch (error) {
+            console.error("Refresh Intel Failed:", error);
+            set({ loading: false });
         }
     },
 
@@ -913,7 +930,7 @@ ${(event.intelSponsors || []).map(s => {
         messages: [{
             id: 'welcome',
             role: 'assistant',
-            content: "Hello! I'm your Sponsorship Intelligence Coach. How can I help you today?",
+            content: "Intelligence feed active. I am your Sponsorship Coach. I have mapped the Lagos fashion capital flows—what data are we weaponizing today?",
             timestamp: new Date()
         }]
     }),

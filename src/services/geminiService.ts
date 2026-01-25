@@ -155,6 +155,66 @@ export const generateDetailedStrategy = async (
     }
 };
 
+export const generateRealtimeInsights = async (
+    events: any[],
+    sponsors: any[]
+): Promise<any[]> => {
+    if (!API_KEY) {
+        throw new Error("Gemini API Key is not configured.");
+    }
+
+    const prompt = `
+    Role: Senior Market Research Analyst (Lagos Fashion Ecosystem)
+    Context: You are providing a "Neural Intelligence Feed" for investors and stakeholders.
+    
+    Current Database Snapshot:
+    - Events Count: ${events.length}
+    - Key Events: ${events.slice(0, 5).map(e => e.name).join(", ")}
+    - Active Sponsors: ${sponsors.slice(0, 5).map(s => s.name).join(", ")}
+    
+    Task: Generate 3 high-impact "Market Intelligence Insights".
+    Important: The response MUST be in RAW JSON format with exactly the following structure:
+    [
+      {
+        "id": "unique-id-1",
+        "title": "Short strategic title",
+        "content": "Deep analytical content (2-3 sentences)",
+        "type": "strategy" | "insight" | "alert",
+        "impact": "high" | "medium" | "low",
+        "timestamp": "Present"
+      }
+    ]
+    
+    Tone: Analytical, predictive, and sharp. 
+    Guidelines: Focus on capital liquidity, consumer demographic shifts in Lagos (Island vs Mainland), and sponsor appetite (Banking, FinTech, Alcobev).
+    Constraint: No markdown formatting.
+  `;
+
+    try {
+        const result = await model.generateContent(prompt);
+        const text = result.response.text();
+
+        const start = text.indexOf('[');
+        const end = text.lastIndexOf(']');
+        if (start === -1 || end === -1) throw new Error("Invalid insights format");
+
+        const jsonStr = text.substring(start, end + 1);
+        return JSON.parse(jsonStr);
+    } catch (error: any) {
+        console.error("Realtime Insights Error:", error);
+        return [
+            {
+                id: "fallback-1",
+                title: "Intelligence Feed Initializing",
+                content: "Cross-analyzing current market data. Real-time insights will populate as database depth increases.",
+                type: "insight",
+                impact: "medium",
+                timestamp: "Active"
+            }
+        ];
+    }
+};
+
 export const chatWithCoach = async (
     history: Array<{ role: 'user' | 'assistant'; content: string }>,
     userMessage: string,
