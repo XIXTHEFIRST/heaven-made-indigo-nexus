@@ -25,6 +25,7 @@ import SponsorIntelligence from "./pages/SponsorIntelligence";
 import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import LandingPage from "./pages/LandingPage";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
@@ -61,7 +62,7 @@ const App = () => {
                     <BrowserRouter>
                         <Routes>
                             {/* Public Routes */}
-                            <Route path="/" element={<LandingPage />} />
+                            <Route path="/" element={<Index />} />
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/signup" element={<SignupPage />} />
                             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />

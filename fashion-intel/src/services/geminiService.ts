@@ -154,3 +154,48 @@ export const generateDetailedStrategy = async (
         throw new Error(error.message || "Failed to generate detailed strategy.");
     }
 };
+
+export const chatWithCoach = async (
+    history: Array<{ role: 'user' | 'assistant'; content: string }>,
+    userMessage: string,
+    context: string
+): Promise<string> => {
+    if (!API_KEY) {
+        throw new Error("Gemini API Key is not configured.");
+    }
+
+    const systemPrompt = `
+    Role: Senior Sponsorship Intelligence Coach (Lagos Market Specialist)
+    DNA: You are a hybrid of a McKinsey consultant and a Lagos street-smart fashion fixer.
+    
+    Lagos Intelligence Database (Internal Context):
+    - Market Gaps: Oversupply in "Generic Runway", Zero depth in "B2B Fashion Logistic Tech", Massive gap in "Hyper-Local Luxury Retail in Lekki Phase 1".
+    - Tier 1 Sponsors: Access Bank (Lifestyle), GTBank (Events/Art), MTN (Mass Market), Heineken (Global Luxury), Moët & Chandon (VIP Activation).
+    - Current Dynamics: Shift towards "Sustainable Heritage" and "Streetwear Liquidity". Investors are looking for ROI beyond "Logo on a wall".
+    
+    Guidelines:
+    1. Intelligence over Fluff: Never say "This is a great idea". Say "This aligns with the current capital flow in X sector".
+    2. Deep Geography: Use Island vs Mainland dynamics (Lekki, VI, Ikoyi vs Surulere, Ikeja).
+    3. ROI Focus: Every strategy must move towards a deal. Mention "Activation Architecture" and "Lead Generation".
+    4. Sharp Personality: You are here to help them win. Use terms like "Exploitable Gaps", "Market Dominance", and "Capital Velocity".
+    5. Formatting: Use bold text for key strategic terms. Use bullet points for checklists.
+    `;
+
+    try {
+        const chat = model.startChat({
+            history: history.map(m => ({
+                role: m.role === 'user' ? 'user' : 'model',
+                parts: [{ text: m.content }]
+            })),
+            generationConfig: {
+                maxOutputTokens: 1000,
+            },
+        });
+
+        const result = await chat.sendMessage(`${systemPrompt}\n\nUser Question: ${userMessage}`);
+        return result.response.text();
+    } catch (error: any) {
+        console.error("Coach Chat Error:", error);
+        throw new Error("Failed to consult the intelligence coach.");
+    }
+};

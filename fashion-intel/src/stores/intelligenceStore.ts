@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { supabase } from "@/lib/supabase";
-import { generateEventAnalysis, generateDetailedStrategy } from "@/services/geminiService";
+import { generateEventAnalysis, generateDetailedStrategy, chatWithCoach } from "@/services/geminiService";
 import {
     Event,
     Sponsor,
@@ -110,7 +110,7 @@ export const useIntelligenceStore = create<IntelligenceState>((set, get) => ({
     messages: [{
         id: 'welcome',
         role: 'assistant',
-        content: "Hello! I'm your Sponsorship Intelligence Coach. How can I help you dominate the Lagos fashion scene today?",
+        content: "Intelligence feed active. I am your Sponsorship Coach. I have mapped the Lagos fashion capital flows—what data are we weaponizing today?",
         timestamp: new Date()
     }],
 
@@ -874,20 +874,39 @@ ${(event.intelSponsors || []).map(s => {
         const userMsg = { id: crypto.randomUUID(), role: 'user' as const, content, timestamp: new Date() };
         set(state => ({ messages: [...state.messages, userMsg] }));
 
-        await new Promise(r => setTimeout(r, 1000));
+        try {
+            const { events, sponsors, messages } = get();
 
-        const query = content.toLowerCase();
-        let response = "";
+            // Limit history to last 6 messages to keep context window clean
+            const history = messages.slice(-6).map(m => ({ role: m.role, content: m.content }));
 
-        // Simple rules-based response for now
-        if (query.includes("gap")) {
-            response = "The most significant exploitable gap remains **Sustainable B2B Infostructure**.";
-        } else {
-            response = "I'm analyzing your request. My current intelligence covers the entire Lagos fashion ecosystem. Ask me about specific gaps or sponsor strategies!";
+            // Build a small context object from current store data
+            const context = `
+                Total Events Tracked: ${events.length}
+                Total Sponsors in Database: ${sponsors.length}
+                Samples: ${events.slice(0, 2).map(e => e.name).join(', ')}
+                Verified Capital Flows: High
+            `;
+
+            const response = await chatWithCoach(history, content, context);
+
+            const assistantMsg = {
+                id: crypto.randomUUID(),
+                role: 'assistant' as const,
+                content: response,
+                timestamp: new Date()
+            };
+            set(state => ({ messages: [...state.messages, assistantMsg] }));
+        } catch (error) {
+            console.error("Coach Chat Failed:", error);
+            const errorMsg = {
+                id: crypto.randomUUID(),
+                role: 'assistant' as const,
+                content: "My connection to the neural grid is flickering. Try again in 5 seconds—the intelligence is there, just temporarily obscured.",
+                timestamp: new Date()
+            };
+            set(state => ({ messages: [...state.messages, errorMsg] }));
         }
-
-        const assistantMsg = { id: crypto.randomUUID(), role: 'assistant' as const, content: response, timestamp: new Date() };
-        set(state => ({ messages: [...state.messages, assistantMsg] }));
     },
 
     clearChat: () => set({
