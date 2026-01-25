@@ -226,7 +226,7 @@ const AIIntelligence = () => {
                                                         </div>
                                                     </CardHeader>
                                                     <CardContent className="space-y-6 pt-0">
-                                                        <p className="text-muted-foreground leading-relaxed text-lg">{insight.content}</p>
+                                                        <p className="text-black font-medium leading-relaxed text-lg">{insight.content}</p>
 
                                                         <div className="p-5 bg-emerald-50/50 rounded-2xl border border-emerald-100">
                                                             <div className="flex items-center justify-between mb-3">
@@ -245,12 +245,12 @@ const AIIntelligence = () => {
 
                                                         {insight.supportingData.length > 0 && (
                                                             <div className="space-y-3">
-                                                                <p className="text-sm font-black uppercase tracking-widest text-muted-foreground pt-2">Evidence & Correlation:</p>
+                                                                <p className="text-sm font-black uppercase tracking-widest text-black pt-2">Evidence & Correlation:</p>
                                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                                                     {insight.supportingData.map((data, idx) => (
                                                                         <div key={idx} className="text-sm p-3 bg-white rounded-xl border border-emerald-100 flex items-center gap-3">
                                                                             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500" />
-                                                                            <span className="font-medium text-emerald-900">{data}</span>
+                                                                            <span className="font-bold text-black">{data}</span>
                                                                         </div>
                                                                     ))}
                                                                 </div>
@@ -284,22 +284,22 @@ const AIIntelligence = () => {
                                             {matches.map((match, idx) => (
                                                 <div key={idx} className="p-6 hover:bg-emerald-50/50 transition-all">
                                                     <div className="flex items-center justify-between mb-4">
-                                                        <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">Strategic Fit</span>
+                                                        <span className="text-xs font-black uppercase tracking-widest text-black">Strategic Fit</span>
                                                         <Badge className="bg-emerald-700 text-white font-black text-sm px-3 py-1 rounded-full">{match.fitScore}%</Badge>
                                                     </div>
                                                     <div className="space-y-4">
                                                         <div className="flex justify-between items-center text-sm">
-                                                            <span className="text-muted-foreground font-medium">Recommended Tier</span>
+                                                            <span className="text-black font-medium">Recommended Tier</span>
                                                             <span className="font-bold text-emerald-800">{match.recommendedTier}</span>
                                                         </div>
                                                         <div className="flex justify-between items-center text-sm">
-                                                            <span className="text-muted-foreground font-medium">Estimated ROI</span>
+                                                            <span className="text-black font-medium">Estimated ROI</span>
                                                             <span className="font-bold text-emerald-600 italic">{match.estimatedROI.toFixed(1)}x Multiple</span>
                                                         </div>
                                                     </div>
                                                     <div className="mt-5 space-y-2">
                                                         {match.reasoning.slice(0, 2).map((reason, ridx) => (
-                                                            <div key={ridx} className="text-xs p-2 bg-emerald-50 rounded-lg text-emerald-900 flex items-start gap-2 border border-emerald-100">
+                                                            <div key={ridx} className="text-xs p-2 bg-emerald-50 rounded-lg text-black font-bold flex items-start gap-2 border border-emerald-100">
                                                                 <ArrowRight className="w-3 h-3 mt-0.5 text-emerald-700 shrink-0" />
                                                                 <span>{reason}</span>
                                                             </div>

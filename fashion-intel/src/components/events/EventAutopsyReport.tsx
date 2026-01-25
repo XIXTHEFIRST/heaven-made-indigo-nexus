@@ -54,8 +54,8 @@ const EventAutopsyReport: React.FC<EventAutopsyReportProps> = ({ event, onDownlo
                         </div>
                         <h2 className="text-3xl font-serif font-bold tracking-tight">Post-Event Intelligence Autopsy</h2>
                     </div>
-                    <p className="text-lg text-muted-foreground">
-                        Critical analysis of <span className="text-white font-medium">{event.name}</span>.
+                    <p className="text-lg text-black font-medium">
+                        Critical analysis of <span className="text-emerald-700 font-bold">{event.name}</span>.
                         Revealing exploitable gaps and sponsor behavior patterns for your next brand partnership.
                     </p>
                 </div>
@@ -95,8 +95,8 @@ const EventAutopsyReport: React.FC<EventAutopsyReportProps> = ({ event, onDownlo
                                     <div className="font-bold text-intelligence-accent uppercase tracking-tighter">Sponsor ID: {s.sponsorId}</div>
                                     <Badge className="bg-intelligence-primary/10 text-intelligence-primary border-none text-[10px]">{s.tier}</Badge>
                                 </div>
-                                <p className="text-sm text-muted-foreground leading-relaxed">
-                                    <span className="text-white font-medium italic">Outcome:</span> {s.deliverables}
+                                <p className="text-sm text-black leading-relaxed font-medium">
+                                    <span className="text-emerald-700 font-bold italic">Outcome:</span> {s.deliverables}
                                 </p>
                                 <div className="pt-2 border-t border-white/5 flex items-center justify-between">
                                     <span className="text-xs text-muted-foreground">Deal Estimated:</span>
@@ -110,7 +110,7 @@ const EventAutopsyReport: React.FC<EventAutopsyReportProps> = ({ event, onDownlo
                         <h4 className="text-sm font-bold text-intelligence-primary flex items-center gap-2 mb-2">
                             <BookOpen className="w-4 h-4" /> Strategic Context
                         </h4>
-                        <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">
+                        <p className="text-sm text-black whitespace-pre-line leading-relaxed font-medium">
                             {event.autopsyReport.split('⚠️ MARKET GAPS')[0].split('💰 SPONSOR SUCCESS FACTORS:')[1]}
                         </p>
                     </div>
@@ -159,7 +159,7 @@ const EventAutopsyReport: React.FC<EventAutopsyReportProps> = ({ event, onDownlo
                             <AlertTriangle className="w-5 h-5" />
                             Exploitable Gaps
                         </h4>
-                        <p className="text-sm text-muted-foreground leading-relaxed italic">
+                        <p className="text-sm text-black font-bold leading-relaxed italic">
                             {event.autopsyReport.split('🎯 LESSONS FOR MY EVENT:')[0].split('⚠️ MARKET GAPS THIS EVENT LEFT OPEN:')[1]}
                         </p>
                     </motion.div>
@@ -175,7 +175,7 @@ const EventAutopsyReport: React.FC<EventAutopsyReportProps> = ({ event, onDownlo
                             <Zap className="w-5 h-5" />
                             Viral Velocity
                         </h4>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
+                        <p className="text-sm text-black font-medium leading-relaxed">
                             {event.successMetrics?.viralMoments || "No localized virality detected for this intelligence cycle."}
                         </p>
                     </motion.div>
@@ -198,7 +198,7 @@ const EventAutopsyReport: React.FC<EventAutopsyReportProps> = ({ event, onDownlo
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {/* We'll parse the lessons specifically if possible, otherwise render raw */}
-                    <div className="lg:col-span-4 text-muted-foreground text-sm leading-relaxed whitespace-pre-line border-l-2 border-intelligence-primary pl-6 py-2">
+                    <div className="lg:col-span-4 text-black text-sm leading-relaxed whitespace-pre-line border-l-2 border-intelligence-primary pl-6 py-2 font-medium">
                         {event.autopsyReport.split('📊 SPONSOR BEHAVIOR PATTERNS:')[0].split('🎯 LESSONS FOR MY EVENT:')[1]}
                     </div>
                 </div>

@@ -87,8 +87,8 @@ export const CoachChat = () => {
                         <div className="px-4 py-2 bg-intelligence-primary/10 border-b border-white/5 flex items-center gap-3">
                             <Bot className="w-4 h-4 text-intelligence-primary" />
                             <div className="flex-1 overflow-hidden">
-                                <p className="text-[10px] text-intelligence-primary font-bold uppercase tracking-widest mb-0.5">Insight of the Day</p>
-                                <p className="text-[11px] text-white/80 italic line-clamp-1">{INSIGHT_OF_THE_DAY}</p>
+                                <p className="text-[10px] text-intelligence-primary-dark font-black uppercase tracking-widest mb-0.5">Insight of the Day</p>
+                                <p className="text-[11px] text-black italic line-clamp-1">{INSIGHT_OF_THE_DAY}</p>
                             </div>
                         </div>
 
@@ -108,8 +108,8 @@ export const CoachChat = () => {
                                     <div className={cn(
                                         "p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap",
                                         msg.role === 'user'
-                                            ? "bg-intelligence-primary text-black font-medium rounded-tr-none"
-                                            : "glass-dark border border-white/5 text-white rounded-tl-none font-light"
+                                            ? "bg-intelligence-primary text-black font-bold rounded-tr-none shadow-md"
+                                            : "bg-white/90 backdrop-blur-md border border-white/20 text-black rounded-tl-none font-medium shadow-sm"
                                     )}>
                                         {msg.content}
                                     </div>
