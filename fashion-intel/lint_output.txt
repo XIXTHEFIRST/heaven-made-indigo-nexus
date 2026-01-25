@@ -1,0 +1,41 @@
+
+> lagos-fashion-intelligence@0.0.0 lint
+> eslint .
+
+
+/Users/admin/Desktop/heaven-made-indigo-nexus-1/fashion-intel/src/components/research/AddEventForm.tsx
+  114:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  190:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  193:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  208:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/admin/Desktop/heaven-made-indigo-nexus-1/fashion-intel/src/components/research/AddSponsorForm.tsx
+  122:57  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  137:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/admin/Desktop/heaven-made-indigo-nexus-1/fashion-intel/src/components/ui/badge.tsx
+  29:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/admin/Desktop/heaven-made-indigo-nexus-1/fashion-intel/src/components/ui/button.tsx
+  50:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/admin/Desktop/heaven-made-indigo-nexus-1/fashion-intel/src/components/ui/command.tsx
+  24:11  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+/Users/admin/Desktop/heaven-made-indigo-nexus-1/fashion-intel/src/components/ui/form.tsx
+  129:10  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/admin/Desktop/heaven-made-indigo-nexus-1/fashion-intel/src/components/ui/navigation-menu.tsx
+  111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/admin/Desktop/heaven-made-indigo-nexus-1/fashion-intel/src/components/ui/sidebar.tsx
+  636:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/admin/Desktop/heaven-made-indigo-nexus-1/fashion-intel/src/components/ui/sonner.tsx
+  27:19  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/admin/Desktop/heaven-made-indigo-nexus-1/fashion-intel/src/components/ui/toggle.tsx
+  37:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+✖ 14 problems (7 errors, 7 warnings)
+

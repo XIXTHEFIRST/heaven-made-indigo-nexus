@@ -20,6 +20,8 @@ import {
     Cell
 } from "recharts";
 import { motion } from "framer-motion";
+import TeamNotes from "@/components/collaboration/TeamNotes";
+import { TaskBoard } from "@/components/collaboration/TaskBoard";
 
 const SponsorDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -245,6 +247,11 @@ const SponsorDetail = () => {
                                     </div>
                                 </CardContent>
                             </Card>
+
+                            {/* Action Items Section */}
+                            <div className="glass-dark rounded-[2rem] border border-white/10 p-8">
+                                <TaskBoard entityType="sponsor" entityId={sponsor.id} />
+                            </div>
                         </div>
 
                         {/* Sidebar */}
@@ -294,6 +301,9 @@ const SponsorDetail = () => {
                                     </div>
                                 </CardContent>
                             </Card>
+
+                            {/* Team Collaboration */}
+                            <TeamNotes entityType="sponsor" entityId={sponsor.id} />
                         </div>
                     </div>
                 </motion.div>

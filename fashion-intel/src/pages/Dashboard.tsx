@@ -31,9 +31,12 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import ActivityFeed from "@/components/collaboration/ActivityFeed";
+import { TaskBoard } from "@/components/collaboration/TaskBoard";
+import { StatCardSkeleton, ChartCardSkeleton } from "@/components/intelligence/SkeletonCards";
 
 const Dashboard = () => {
-    const { events, sponsors, myEvents } = useIntelligenceStore();
+    const { events, sponsors, myEvents, loading } = useIntelligenceStore();
 
     // Stats calculation
     const totalEvents = events.length;
@@ -67,14 +70,14 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-background text-white">
+        <div className="min-h-screen bg-background text-slate-950">
             <Navigation />
 
             <main className="pt-24 pb-12">
                 <div className="container mx-auto px-6">
                     {/* Coach Identity Hero */}
                     <div className="relative mb-12 p-1 md:p-12 rounded-[2.5rem] overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-br from-intelligence-primary/20 via-background to-intelligence-accent/10 z-0" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-background to-emerald-50/5 z-0" />
                         <div className="absolute top-0 right-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=2574&auto=format&fit=crop')] opacity-5 mix-blend-overlay z-0" />
 
                         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
@@ -83,12 +86,12 @@ const Dashboard = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 className="max-w-3xl"
                             >
-                                <Badge className="mb-6 bg-intelligence-primary/20 text-intelligence-primary border-intelligence-primary/50 px-4 py-1.5 text-xs font-bold uppercase tracking-widest animate-pulse">
+                                <Badge className="mb-6 bg-slate-900 text-white border-slate-900 px-4 py-1.5 text-xs font-bold uppercase tracking-widest">
                                     Coach Active • Analysis Ready
                                 </Badge>
-                                <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 leading-[1.1]">
+                                <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 leading-[1.1] text-black">
                                     Master the Art of <br />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-intelligence-primary via-white to-intelligence-accent">Sponsorship Intelligence</span>
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-500">Sponsorship Intelligence</span>
                                 </h1 >
                                 <p className="text-xl text-muted-foreground mb-10 max-w-2xl leading-relaxed">
                                     Your personal AI partner for architecting high-impact fashion events in Lagos.
@@ -96,13 +99,13 @@ const Dashboard = () => {
                                 </p>
                                 <div className="flex flex-wrap gap-4">
                                     <Link to="/my-strategy/build">
-                                        <Button className="bg-white text-black hover:bg-white/90 font-bold h-14 px-8 rounded-2xl group text-lg">
+                                        <Button className="bg-emerald-700 text-white hover:bg-emerald-800 font-bold h-14 px-8 rounded-2xl group text-lg shadow-lg shadow-emerald-700/20">
                                             Build Event Strategy
                                             <Sparkles className="ml-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
                                         </Button>
                                     </Link>
                                     <Link to="/dashboard/research">
-                                        <Button variant="outline" className="h-14 border-white/10 hover:bg-white/5 text-white font-medium px-8 rounded-2xl backdrop-blur-md text-lg">
+                                        <Button variant="outline" className="h-14 border-emerald-200 hover:bg-emerald-50 text-emerald-900 font-medium px-8 rounded-2xl backdrop-blur-md text-lg">
                                             Access Research Hub
                                             <Search className="ml-2 w-5 h-5" />
                                         </Button>
@@ -115,18 +118,18 @@ const Dashboard = () => {
                                 animate={{ opacity: 1, scale: 1 }}
                                 className="hidden lg:block w-80"
                             >
-                                <Card className="glass-premium border-white/20 shadow-2xl shadow-intelligence-primary/10 rotate-3 group hover:rotate-0 transition-all duration-700">
+                                <Card className="glass-premium border-emerald-100 shadow-2xl shadow-emerald-900/5 rotate-3 group hover:rotate-0 transition-all duration-700">
                                     <CardContent className="p-8 text-center space-y-6">
-                                        <div className="w-20 h-20 rounded-full bg-intelligence-primary/10 flex items-center justify-center mx-auto border border-intelligence-primary/20">
-                                            <BrainCircuit className="w-10 h-10 text-intelligence-primary" />
+                                        <div className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center mx-auto border border-emerald-100">
+                                            <BrainCircuit className="w-10 h-10 text-emerald-700" />
                                         </div>
                                         <div>
                                             <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground mb-1">Your Coach Score</p>
-                                            <h3 className="text-6xl font-serif font-bold text-white">{coachScore}</h3>
+                                            <h3 className="text-6xl font-serif font-bold text-emerald-700">{coachScore}</h3>
                                         </div>
                                         <div className="space-y-2">
-                                            <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                                                <div className="h-full bg-intelligence-primary w-[88%]" />
+                                            <div className="h-1.5 bg-emerald-100 rounded-full overflow-hidden">
+                                                <div className="h-full bg-emerald-600 w-[88%]" />
                                             </div>
                                             <p className="text-[10px] text-muted-foreground tracking-widest uppercase">Intel Mastery Level</p>
                                         </div>
@@ -149,44 +152,64 @@ const Dashboard = () => {
                                 animate="visible"
                                 className="grid grid-cols-1 md:grid-cols-3 gap-6"
                             >
-                                <motion.div variants={itemVariants}>
-                                    <StatCard
-                                        title="System Knowledge"
-                                        value={`${totalEvents} Events`}
-                                        icon={Calendar}
-                                        trend={{ value: 100, isPositive: true }}
-                                        className="glass-dark border-white/5"
-                                    />
-                                </motion.div>
-                                <motion.div variants={itemVariants}>
-                                    <StatCard
-                                        title="Active Strategies"
-                                        value={activeStrategies.toString()}
-                                        icon={Target}
-                                        trend={{ value: 1, isPositive: true }}
-                                        className="glass-dark border-white/5"
-                                    />
-                                </motion.div>
-                                <motion.div variants={itemVariants}>
-                                    <StatCard
-                                        title="Market Velocity"
-                                        value={marketVelocity}
-                                        icon={TrendingUp}
-                                        trend={{ value: 42, isPositive: true }}
-                                        className="glass-dark border-white/5"
-                                    />
-                                </motion.div>
+                                {loading ? (
+                                    <>
+                                        <StatCardSkeleton />
+                                        <StatCardSkeleton />
+                                        <StatCardSkeleton />
+                                    </>
+                                ) : (
+                                    <>
+                                        <motion.div variants={itemVariants}>
+                                            <StatCard
+                                                title="System Knowledge"
+                                                value={`${totalEvents} Events`}
+                                                icon={Calendar}
+                                                trend={{ value: 100, isPositive: true }}
+                                                className="glass-dark border-white/5"
+                                            />
+                                        </motion.div>
+                                        <motion.div variants={itemVariants}>
+                                            <StatCard
+                                                title="Active Strategies"
+                                                value={activeStrategies.toString()}
+                                                icon={Target}
+                                                trend={{ value: 1, isPositive: true }}
+                                                className="glass-dark border-white/5"
+                                            />
+                                        </motion.div>
+                                        <motion.div variants={itemVariants}>
+                                            <StatCard
+                                                title="Market Velocity"
+                                                value={marketVelocity}
+                                                icon={TrendingUp}
+                                                trend={{ value: 42, isPositive: true }}
+                                                className="glass-dark border-white/5"
+                                            />
+                                        </motion.div>
+                                    </>
+                                )}
+                            </motion.div>
+
+                            {/* Global Action Board */}
+                            <motion.div
+                                variants={itemVariants}
+                                initial="hidden"
+                                animate="visible"
+                                className="glass-dark rounded-3xl border border-white/10 p-8 shadow-2xl"
+                            >
+                                <TaskBoard />
                             </motion.div>
 
                             {/* Main Activity Area */}
                             <Card className="glass-dark border-white/5 overflow-hidden">
-                                <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-6">
+                                <CardHeader className="flex flex-row items-center justify-between border-b border-border/50 pb-6">
                                     <div>
-                                        <CardTitle className="text-2xl font-serif">Strategy Models</CardTitle>
+                                        <CardTitle className="text-2xl font-serif text-black">Strategy Models</CardTitle>
                                         <CardDescription>Your current architectural pipeline</CardDescription>
                                     </div>
                                     <Link to="/my-strategy">
-                                        <Button variant="ghost" className="text-intelligence-primary hover:bg-intelligence-primary/10">
+                                        <Button variant="ghost" className="text-emerald-700 hover:bg-emerald-50">
                                             Manage Hub <ArrowRight className="ml-2 w-4 h-4" />
                                         </Button>
                                     </Link>
@@ -208,7 +231,7 @@ const Dashboard = () => {
                                                             <Target className="w-6 h-6" />
                                                         </div>
                                                         <div>
-                                                            <h4 className="font-bold text-white group-hover:text-intelligence-primary transition-colors">{strategy.name}</h4>
+                                                            <h4 className="font-bold text-black group-hover:text-emerald-700 transition-colors">{strategy.name}</h4>
                                                             <p className="text-xs text-muted-foreground">{strategy.type} • {strategy.status}</p>
                                                         </div>
                                                     </div>
@@ -225,11 +248,11 @@ const Dashboard = () => {
 
                         {/* Intelligence Sidebar */}
                         <div className="space-y-8">
-                            <Card className="glass-premium border-white/10 bg-gradient-to-br from-intelligence-accent/10 to-transparent">
+                            <Card className="glass-premium border-emerald-100 bg-gradient-to-br from-emerald-50/50 to-transparent">
                                 <CardHeader>
                                     <div className="flex items-center gap-2">
-                                        <Zap className="w-5 h-5 text-intelligence-accent" />
-                                        <CardTitle className="text-lg">Real-time Intel Feed</CardTitle>
+                                        <Zap className="w-5 h-5 text-emerald-700" />
+                                        <CardTitle className="text-lg text-black">Real-time Intel Feed</CardTitle>
                                     </div>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
@@ -239,38 +262,44 @@ const Dashboard = () => {
                                         <p className="text-xs text-muted-foreground leading-relaxed">3 major Financial Institutions just opened Q3 budget cycles for Lifestyle sponsorship.</p>
                                     </div>
                                     <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-                                        <Badge variant="outline" className="text-[9px] border-intelligence-primary/50 text-intelligence-primary">GAP ALERT</Badge>
+                                        <Badge variant="outline" className="text-[9px] border-emerald-500/50 text-emerald-500">GAP ALERT</Badge>
                                         <h4 className="text-sm font-bold">Sustainable Pop-ups</h4>
                                         <p className="text-xs text-muted-foreground leading-relaxed">Oversupply in Runway; 0 matching events found for "Eco-Tourism Fashion" in Q4.</p>
                                     </div>
                                     <Link to="/sponsor-intelligence">
-                                        <Button className="w-full bg-intelligence-accent hover:bg-intelligence-accent-dark text-black font-bold text-xs h-10">
+                                        <Button className="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs h-10 shadow-md shadow-emerald-900/10">
                                             Open Intelligence Matrix
                                         </Button>
                                     </Link>
                                 </CardContent>
                             </Card>
 
-                            <ChartCard
-                                title="Lagos Market Sentiment"
-                                description="Investor appetite tracking"
-                                className="border-white/5 bg-transparent"
-                            >
-                                <div className="h-[200px]">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <BarChart data={monthlyTrendData}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff0a" />
-                                            <Bar dataKey="interest" fill="url(#barGradient)" radius={[4, 4, 0, 0]} />
-                                            <defs>
-                                                <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="0%" stopColor="hsl(var(--intelligence-primary))" stopOpacity={1} />
-                                                    <stop offset="100%" stopColor="hsl(var(--intelligence-primary))" stopOpacity={0.2} />
-                                                </linearGradient>
-                                            </defs>
-                                        </BarChart>
-                                    </ResponsiveContainer>
-                                </div>
-                            </ChartCard>
+                            <ActivityFeed />
+
+                            {loading ? (
+                                <ChartCardSkeleton />
+                            ) : (
+                                <ChartCard
+                                    title="Lagos Market Sentiment"
+                                    description="Investor appetite tracking"
+                                    className="border-white/5 bg-transparent"
+                                >
+                                    <div className="h-[200px]">
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <BarChart data={monthlyTrendData}>
+                                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff0a" />
+                                                <Bar dataKey="interest" fill="url(#barGradient)" radius={[4, 4, 0, 0]} />
+                                                <defs>
+                                                    <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                                                        <stop offset="0%" stopColor="hsl(var(--intelligence-primary))" stopOpacity={1} />
+                                                        <stop offset="100%" stopColor="hsl(var(--intelligence-primary))" stopOpacity={0.2} />
+                                                    </linearGradient>
+                                                </defs>
+                                            </BarChart>
+                                        </ResponsiveContainer>
+                                    </div>
+                                </ChartCard>
+                            )}
                         </div>
                     </div>
                 </div>

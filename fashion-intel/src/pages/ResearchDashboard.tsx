@@ -13,6 +13,7 @@ import {
     Filter
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Event, Sponsor } from "@/types/intelligence";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
@@ -47,8 +48,8 @@ const ResearchDashboard = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
     const [isSponsorDialogOpen, setIsSponsorDialogOpen] = useState(false);
-    const [editingEvent, setEditingEvent] = useState<any>(null);
-    const [editingSponsor, setEditingSponsor] = useState<any>(null);
+    const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+    const [editingSponsor, setEditingSponsor] = useState<Sponsor | null>(null);
 
     // Stats calculation
     const totalDealsLogged = sponsors.reduce((acc, s) => acc + s.totalSponsorship, 0);
@@ -59,12 +60,12 @@ const ResearchDashboard = () => {
     const filteredEvents = events.filter(e => e.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 10);
     const filteredSponsors = sponsors.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 10);
 
-    const handleEditEvent = (event: any) => {
+    const handleEditEvent = (event: Event) => {
         setEditingEvent(event);
         setIsEventDialogOpen(true);
     };
 
-    const handleEditSponsor = (sponsor: any) => {
+    const handleEditSponsor = (sponsor: Sponsor) => {
         setEditingSponsor(sponsor);
         setIsSponsorDialogOpen(true);
     };
@@ -104,7 +105,7 @@ const ResearchDashboard = () => {
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                         >
-                            <h1 className="text-4xl font-serif font-bold text-white mb-2">Research Dashboard</h1>
+                            <h1 className="text-4xl font-serif font-bold text-black mb-2">Research Dashboard</h1>
                             <p className="text-muted-foreground">Strategic oversight and data management for Lagos Fashion Intelligence</p>
                         </motion.div>
 
@@ -115,12 +116,12 @@ const ResearchDashboard = () => {
                         >
                             <Dialog open={isEventDialogOpen} onOpenChange={handleCloseEventDialog}>
                                 <DialogTrigger asChild>
-                                    <Button className="bg-intelligence-primary hover:bg-intelligence-primary-dark gap-2 shadow-lg shadow-intelligence-primary/20 flex-1 md:flex-none">
+                                    <Button className="bg-emerald-700 hover:bg-emerald-800 text-white gap-2 shadow-lg shadow-emerald-700/20 flex-1 md:flex-none">
                                         <Plus className="w-4 h-4" />
                                         Add Event
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent className="max-w-4xl p-0 overflow-hidden glass-dark border-white/10">
+                                <DialogContent className="max-w-4xl p-0 overflow-hidden bg-white border-emerald-100 shadow-2xl">
                                     <AddEventForm
                                         initialData={editingEvent}
                                         onClose={() => handleCloseEventDialog(false)}
@@ -130,12 +131,12 @@ const ResearchDashboard = () => {
 
                             <Dialog open={isSponsorDialogOpen} onOpenChange={handleCloseSponsorDialog}>
                                 <DialogTrigger asChild>
-                                    <Button variant="outline" className="border-white/10 hover:bg-white/5 gap-2 flex-1 md:flex-none">
+                                    <Button variant="outline" className="border-emerald-200 hover:bg-emerald-50 text-emerald-900 gap-2 flex-1 md:flex-none">
                                         <Plus className="w-4 h-4" />
                                         Add Sponsor
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent className="max-w-3xl p-0 overflow-hidden glass-dark border-white/10">
+                                <DialogContent className="max-w-3xl p-0 overflow-hidden bg-white border-emerald-100 shadow-2xl">
                                     <AddSponsorForm
                                         initialData={editingSponsor}
                                         onClose={() => handleCloseSponsorDialog(false)}
@@ -153,15 +154,15 @@ const ResearchDashboard = () => {
                         className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10"
                     >
                         <motion.div variants={itemVariants}>
-                            <Card className="glass-premium border-white/10 hover:border-intelligence-primary/30 transition-all duration-500 group">
+                            <Card className="glass-premium border-emerald-100 hover:border-emerald-300 transition-all duration-500 group">
                                 <CardContent className="pt-6">
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Events Logged</p>
-                                            <h3 className="text-3xl font-bold text-white">{events.length}</h3>
+                                            <h3 className="text-3xl font-bold text-black">{events.length}</h3>
                                         </div>
-                                        <div className="p-2 bg-intelligence-primary/10 rounded-lg group-hover:bg-intelligence-primary/20 transition-colors">
-                                            <Calendar className="w-5 h-5 text-intelligence-primary" />
+                                        <div className="p-2 bg-emerald-50 rounded-lg group-hover:bg-emerald-100 transition-colors">
+                                            <Calendar className="w-5 h-5 text-emerald-700" />
                                         </div>
                                     </div>
                                     <div className="mt-4 flex items-center text-xs text-green-400">
@@ -173,15 +174,15 @@ const ResearchDashboard = () => {
                         </motion.div>
 
                         <motion.div variants={itemVariants}>
-                            <Card className="glass-premium border-white/10 hover:border-intelligence-primary/30 transition-all duration-500 group">
+                            <Card className="glass-premium border-emerald-100 hover:border-emerald-300 transition-all duration-500 group">
                                 <CardContent className="pt-6">
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Active Sponsors</p>
-                                            <h3 className="text-3xl font-bold text-white">{sponsors.length}</h3>
+                                            <h3 className="text-3xl font-bold text-black">{sponsors.length}</h3>
                                         </div>
-                                        <div className="p-2 bg-intelligence-primary/10 rounded-lg group-hover:bg-intelligence-primary/20 transition-colors">
-                                            <Building2 className="w-5 h-5 text-intelligence-primary" />
+                                        <div className="p-2 bg-emerald-50 rounded-lg group-hover:bg-emerald-100 transition-colors">
+                                            <Building2 className="w-5 h-5 text-emerald-700" />
                                         </div>
                                     </div>
                                     <div className="mt-4 flex items-center text-xs text-muted-foreground">
@@ -192,15 +193,15 @@ const ResearchDashboard = () => {
                         </motion.div>
 
                         <motion.div variants={itemVariants}>
-                            <Card className="glass-premium border-white/10 hover:border-intelligence-primary/30 transition-all duration-500 group">
+                            <Card className="glass-premium border-emerald-100 hover:border-emerald-300 transition-all duration-500 group">
                                 <CardContent className="pt-6">
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest mb-1">Total Verified Deals</p>
-                                            <h3 className="text-3xl font-bold text-white">{formattedDeals}</h3>
+                                            <h3 className="text-3xl font-bold text-black">{formattedDeals}</h3>
                                         </div>
-                                        <div className="p-2 bg-intelligence-primary/10 rounded-lg group-hover:bg-intelligence-primary/20 transition-colors">
-                                            <ArrowUpRight className="w-5 h-5 text-intelligence-primary" />
+                                        <div className="p-2 bg-emerald-50 rounded-lg group-hover:bg-emerald-100 transition-colors">
+                                            <ArrowUpRight className="w-5 h-5 text-emerald-700" />
                                         </div>
                                     </div>
                                     <div className="mt-4 flex items-center text-xs text-green-400">
@@ -219,18 +220,18 @@ const ResearchDashboard = () => {
                             transition={{ delay: 0.3 }}
                             className="lg:col-span-2 space-y-8"
                         >
-                            <Card className="glass-dark border-white/10">
+                            <Card className="glass-dark border-emerald-100">
                                 <CardHeader className="flex flex-row items-center justify-between">
                                     <div>
-                                        <CardTitle className="text-xl font-serif">Research Data Management</CardTitle>
+                                        <CardTitle className="text-xl font-serif text-black">Research Data Management</CardTitle>
                                         <CardDescription>Search and manage existing records</CardDescription>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <div className="relative w-64 hidden md:block">
-                                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-emerald-600/50" />
                                             <Input
                                                 placeholder="Search records..."
-                                                className="pl-9 glass-dark border-white/10"
+                                                className="pl-9 glass-dark border-emerald-100/50"
                                                 value={searchQuery}
                                                 onChange={(e) => setSearchQuery(e.target.value)}
                                             />
@@ -239,9 +240,9 @@ const ResearchDashboard = () => {
                                 </CardHeader>
                                 <CardContent>
                                     <Tabs defaultValue="events">
-                                        <TabsList className="bg-white/5 p-1 border border-white/10 mb-6">
-                                            <TabsTrigger value="events" className="data-[state=active]:bg-intelligence-primary">Events Feed</TabsTrigger>
-                                            <TabsTrigger value="sponsors" className="data-[state=active]:bg-intelligence-primary">Sponsor Database</TabsTrigger>
+                                        <TabsList className="bg-emerald-50 p-1 border border-emerald-100 mb-6">
+                                            <TabsTrigger value="events" className="data-[state=active]:bg-emerald-700 data-[state=active]:text-white">Events Feed</TabsTrigger>
+                                            <TabsTrigger value="sponsors" className="data-[state=active]:bg-emerald-700 data-[state=active]:text-white">Sponsor Database</TabsTrigger>
                                         </TabsList>
 
                                         <TabsContent value="events" className="space-y-4">
@@ -252,15 +253,15 @@ const ResearchDashboard = () => {
                                             ) : filteredEvents.map(event => (
                                                 <div key={event.id} className="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10 group">
                                                     <div className="flex items-center gap-4">
-                                                        <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted">
+                                                        <div className="w-12 h-12 rounded-lg overflow-hidden bg-emerald-50">
                                                             {event.imageUrl || event.bannerImage ? (
                                                                 <img src={event.imageUrl || event.bannerImage} alt={event.name} className="w-full h-full object-cover" />
                                                             ) : (
-                                                                <div className="flex items-center justify-center h-full text-xs font-bold bg-intelligence-primary/20">EVENT</div>
+                                                                <div className="flex items-center justify-center h-full text-[10px] font-bold text-emerald-700 bg-emerald-100">EVENT</div>
                                                             )}
                                                         </div>
                                                         <div>
-                                                            <h4 className="font-bold text-white">{event.name}</h4>
+                                                            <h4 className="font-bold text-black">{event.name}</h4>
                                                             <p className="text-xs text-muted-foreground">{event.venue} • {new Date(event.date).toLocaleDateString()}</p>
                                                         </div>
                                                     </div>
@@ -290,7 +291,7 @@ const ResearchDashboard = () => {
                                                 </div>
                                             ))}
                                             {events.length > 5 && (
-                                                <Button variant="link" className="text-intelligence-primary w-full mt-4">View All Events</Button>
+                                                <Button variant="link" className="text-emerald-700 w-full mt-4 hover:text-emerald-800">View All Events</Button>
                                             )}
                                         </TabsContent>
 
@@ -302,17 +303,17 @@ const ResearchDashboard = () => {
                                             ) : filteredSponsors.map(sponsor => (
                                                 <div key={sponsor.id} className="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10 group">
                                                     <div className="flex items-center gap-4">
-                                                        <div className="w-12 h-12 rounded-full overflow-hidden bg-muted border border-white/10">
+                                                        <div className="w-12 h-12 rounded-full overflow-hidden bg-emerald-50 border border-emerald-100">
                                                             {sponsor.logo ? (
                                                                 <img src={sponsor.logo} alt={sponsor.name} className="w-full h-full object-cover" />
                                                             ) : (
-                                                                <div className="flex items-center justify-center h-full text-[10px] font-bold">LOGO</div>
+                                                                <div className="flex items-center justify-center h-full text-[10px] font-bold text-emerald-700 bg-emerald-100">LOGO</div>
                                                             )}
                                                         </div>
                                                         <div>
-                                                            <h4 className="font-bold text-white">{sponsor.name}</h4>
+                                                            <h4 className="font-bold text-black">{sponsor.name}</h4>
                                                             <div className="flex gap-2 items-center">
-                                                                <Badge variant="outline" className="text-[10px] h-4 border-white/10 bg-white/5">{sponsor.industry}</Badge>
+                                                                <Badge variant="outline" className="text-[10px] h-4 border-emerald-100 bg-emerald-50/50 text-emerald-800">{sponsor.industry}</Badge>
                                                                 <span className="text-[10px] text-muted-foreground">Budget: ₦{(sponsor.totalInvestmentBudget / 1000000).toFixed(1)}M</span>
                                                             </div>
                                                         </div>
@@ -343,7 +344,7 @@ const ResearchDashboard = () => {
                                                 </div>
                                             ))}
                                             {sponsors.length > 5 && (
-                                                <Button variant="link" className="text-intelligence-primary w-full mt-4">View All Sponsors</Button>
+                                                <Button variant="link" className="text-emerald-700 w-full mt-4 hover:text-emerald-800">View All Sponsors</Button>
                                             )}
                                         </TabsContent>
                                     </Tabs>
@@ -357,11 +358,11 @@ const ResearchDashboard = () => {
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: 0.5 }}
                         >
-                            <Card className="glass-dark border-white/10 h-full">
+                            <Card className="glass-dark border-emerald-100 h-full">
                                 <CardHeader>
                                     <div className="flex items-center gap-2">
-                                        <History className="w-5 h-5 text-intelligence-primary" />
-                                        <CardTitle className="text-lg">Recent Activity</CardTitle>
+                                        <History className="w-5 h-5 text-emerald-700" />
+                                        <CardTitle className="text-lg text-black">Recent Activity</CardTitle>
                                     </div>
                                     <CardDescription>Last 50 modifications</CardDescription>
                                 </CardHeader>
@@ -373,19 +374,19 @@ const ResearchDashboard = () => {
                                             <div key={activity.id} className="relative pl-8">
                                                 <div className={cn(
                                                     "absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-background z-10",
-                                                    activity.type === "create" ? "bg-green-500" : activity.type === "update" ? "bg-intelligence-primary" : "bg-red-500"
+                                                    activity.type === "create" ? "bg-emerald-500" : activity.type === "update" ? "bg-emerald-700" : "bg-red-500"
                                                 )} />
                                                 <div className="text-xs uppercase font-bold tracking-widest text-muted-foreground mb-1">
                                                     {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
                                                 </div>
-                                                <p className="text-sm text-white">
-                                                    <span className="capitalize font-medium">{activity.type}d</span> {activity.entityType}{" "}
-                                                    <span className="text-intelligence-accent">"{activity.entityName}"</span>
+                                                <p className="text-sm text-black font-medium">
+                                                    <span className="capitalize">{activity.type}d</span> {activity.entityType}{" "}
+                                                    <span className="text-emerald-700">"{activity.entityName}"</span>
                                                 </p>
                                             </div>
                                         ))}
                                     </div>
-                                    <Button variant="outline" className="w-full mt-8 border-white/10 hover:bg-white/5 text-xs">Clear Activity Log</Button>
+                                    <Button variant="outline" className="w-full mt-8 border-emerald-100 hover:bg-emerald-50 text-emerald-900 text-xs font-semibold">Clear Activity Log</Button>
                                 </CardContent>
                             </Card>
                         </motion.div>

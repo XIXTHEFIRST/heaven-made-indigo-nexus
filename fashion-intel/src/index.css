@@ -17,24 +17,24 @@ All colors MUST be HSL.
     --popover: 0 0% 98%;
     --popover-foreground: 0 0% 5%;
 
-    --primary: 250 70% 55%;
+    --primary: 161 94% 30%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 10%;
+    --secondary: 161 30% 10%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 40%;
+    --muted: 161 30% 96%;
+    --muted-foreground: 161 30% 40%;
 
-    --accent: 250 70% 55%;
+    --accent: 161 94% 30%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 95%;
-    --ring: 250 70% 55%;
+    --border: 161 30% 90%;
+    --input: 161 30% 95%;
+    --ring: 161 94% 30%;
 
     --radius: 0.5rem;
 
@@ -47,15 +47,17 @@ All colors MUST be HSL.
     --ivory: 0 0% 98%;
     --silver: 0 0% 85%;
 
-    /* Intelligence Theme Colors */
-    --intelligence-primary: 250 70% 55%;
-    /* Deep Purple */
-    --intelligence-primary-light: 250 65% 65%;
-    --intelligence-primary-dark: 250 75% 45%;
-    --intelligence-accent: 45 95% 58%;
-    /* Gold */
-    --intelligence-accent-light: 45 90% 68%;
-    --intelligence-accent-dark: 45 100% 48%;
+    /* Intelligence Theme Colors - Emerald Focus */
+    --intelligence-primary: 161 94% 30%;
+    /* Emerald 700ish */
+    --intelligence-primary-light: 161 80% 95%;
+    /* Emerald 50ish */
+    --intelligence-primary-dark: 161 94% 15%;
+    /* Emerald 900ish */
+    --intelligence-accent: 158 64% 52%;
+    /* Emerald 500ish */
+    --intelligence-accent-light: 158 64% 95%;
+    --intelligence-accent-dark: 158 64% 30%;
 
     /* Data Visualization Palette */
     --data-purple: 270 60% 60%;
@@ -75,11 +77,11 @@ All colors MUST be HSL.
     --gradient-data: linear-gradient(90deg, hsl(250 70% 55%) 0%, hsl(210 80% 55%) 50%, hsl(180 70% 50%) 100%);
 
     /* Premium Shadows */
-    --shadow-luxury: 0 25px 50px -12px hsl(0 0% 0% / 0.15);
-    --shadow-glow: 0 0 60px hsl(25 95% 53% / 0.25);
-    --shadow-subtle: 0 4px 20px hsl(0 0% 0% / 0.08);
-    --shadow-intelligence: 0 10px 40px hsl(250 70% 55% / 0.15);
-    --shadow-card-hover: 0 20px 60px hsl(0 0% 0% / 0.12);
+    --shadow-luxury: 0 25px 50px -12px hsl(161 94% 15% / 0.1);
+    --shadow-glow: 0 0 60px hsl(161 94% 30% / 0.15);
+    --shadow-subtle: 0 4px 20px hsl(161 94% 15% / 0.05);
+    --shadow-intelligence: 0 10px 40px hsl(161 94% 30% / 0.1);
+    --shadow-card-hover: 0 20px 60px hsl(161 94% 15% / 0.1);
 
     /* Premium Spacing */
     --spacing-section: 8rem;
@@ -131,27 +133,6 @@ All colors MUST be HSL.
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Prevent text selection on tap */
-    * {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    /* But allow selection on text content */
-    p,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    span,
-    li {
-      -webkit-user-select: text;
-      user-select: text;
-    }
-
     /* Optimize animations for mobile */
     * {
       will-change: auto !important;
@@ -168,11 +149,13 @@ All colors MUST be HSL.
 
   /* Premium Utilities */
   .glass-premium {
-    @apply bg-background/60 backdrop-blur-xl border border-white/20 shadow-luxury;
+    @apply bg-white/80 backdrop-blur-xl border border-white/40 shadow-luxury;
+    -webkit-backdrop-filter: blur(24px);
   }
 
   .glass-dark {
-    @apply bg-background/40 backdrop-blur-xl border border-white/10 shadow-luxury;
+    @apply bg-white/40 backdrop-blur-xl border border-white/20 shadow-luxury;
+    -webkit-backdrop-filter: blur(24px);
   }
 
   .text-glow {

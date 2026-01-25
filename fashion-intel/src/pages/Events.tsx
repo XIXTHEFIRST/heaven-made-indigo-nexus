@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useIntelligenceStore } from "@/stores/intelligenceStore";
-import { EventType } from "@/types/intelligence";
+import { EventType, Event } from "@/types/intelligence";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     DropdownMenu,
@@ -47,7 +47,7 @@ const Events = () => {
     const [sortBy, setSortBy] = useState<"date" | "attendance" | "budget">("date");
     const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-    const [editingEvent, setEditingEvent] = useState<any>(null);
+    const [editingEvent, setEditingEvent] = useState<Event | null>(null);
 
     const filteredEvents = getFilteredEvents();
 
@@ -73,7 +73,7 @@ const Events = () => {
         setEventFilters({ eventTypes: newTypes });
     };
 
-    const handleEditEvent = (event: any) => {
+    const handleEditEvent = (event: Event) => {
         setEditingEvent(event);
         setIsAddDialogOpen(true);
     };
@@ -85,7 +85,7 @@ const Events = () => {
 
     const selectedEventObjects = selectedEvents
         .map((id) => getEventById(id))
-        .filter((e): e is any => e !== undefined);
+        .filter((e): e is Event => e !== undefined);
 
     return (
         <div className="min-h-screen bg-background text-foreground">
@@ -101,7 +101,7 @@ const Events = () => {
                     {/* Header */}
                     <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div>
-                            <h1 className="text-4xl font-serif font-bold mb-2">Event Research</h1>
+                            <h1 className="text-4xl font-serif font-bold mb-2 text-black">Event Research</h1>
                             <p className="text-lg text-muted-foreground">
                                 Explore and analyze Lagos fashion events
                             </p>
@@ -109,7 +109,7 @@ const Events = () => {
 
                         <Dialog open={isAddDialogOpen} onOpenChange={handleCloseDialog}>
                             <DialogTrigger asChild>
-                                <Button className="bg-intelligence-primary hover:bg-intelligence-primary-dark gap-2">
+                                <Button className="bg-emerald-700 hover:bg-emerald-800 text-white gap-2 shadow-lg shadow-emerald-700/20">
                                     <Plus className="w-4 h-4" />
                                     Add New Event
                                 </Button>
@@ -131,7 +131,7 @@ const Events = () => {
                             onReset={resetEventFilters}
                             placeholder="Search events by name, organizer, or location..."
                         >
-                            <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+                            <Select value={sortBy} onValueChange={(value: "date" | "attendance" | "budget") => setSortBy(value)}>
                                 <SelectTrigger className="w-[180px] bg-background border-border">
                                     <ArrowUpDown className="w-4 h-4 mr-2" />
                                     <SelectValue placeholder="Sort by" />
@@ -148,7 +148,7 @@ const Events = () => {
                                     variant={viewMode === "grid" ? "default" : "outline"}
                                     size="icon"
                                     onClick={() => setViewMode("grid")}
-                                    className={viewMode === "grid" ? "bg-intelligence-primary hover:bg-intelligence-primary-dark" : "border-border"}
+                                    className={viewMode === "grid" ? "bg-emerald-700 hover:bg-emerald-800" : "border-emerald-100 text-emerald-900"}
                                 >
                                     <Grid className="w-4 h-4" />
                                 </Button>
@@ -156,7 +156,7 @@ const Events = () => {
                                     variant={viewMode === "list" ? "default" : "outline"}
                                     size="icon"
                                     onClick={() => setViewMode("list")}
-                                    className={viewMode === "list" ? "bg-intelligence-primary hover:bg-intelligence-primary-dark" : "border-border"}
+                                    className={viewMode === "list" ? "bg-emerald-700 hover:bg-emerald-800" : "border-emerald-100 text-emerald-900"}
                                 >
                                     <List className="w-4 h-4" />
                                 </Button>
@@ -173,8 +173,8 @@ const Events = () => {
                                     className={cn(
                                         "cursor-pointer transition-colors",
                                         eventFilters.eventTypes.includes(type)
-                                            ? "bg-intelligence-primary hover:bg-intelligence-primary-dark"
-                                            : "border-border hover:bg-intelligence-primary/10"
+                                            ? "bg-emerald-700 hover:bg-emerald-800"
+                                            : "border-emerald-100 hover:bg-emerald-50 text-emerald-800"
                                     )}
                                     onClick={() => handleEventTypeToggle(type)}
                                 >
@@ -197,12 +197,12 @@ const Events = () => {
                                     {selectedEvents.length} event{selectedEvents.length > 1 ? "s" : ""} selected
                                 </span>
                                 <div className="flex gap-2">
-                                    <Button variant="outline" size="sm" onClick={clearEventSelection} className="border-intelligence-primary/50 hover:bg-intelligence-primary/20">
+                                    <Button variant="outline" size="sm" onClick={clearEventSelection} className="border-emerald-200 text-emerald-800 hover:bg-emerald-100">
                                         Clear Selection
                                     </Button>
                                     <Button
                                         size="sm"
-                                        className="bg-intelligence-primary hover:bg-intelligence-primary-dark"
+                                        className="bg-emerald-700 hover:bg-emerald-800 shadow-md shadow-emerald-700/10"
                                         onClick={() => setIsCompareModalOpen(true)}
                                     >
                                         Compare Events
@@ -219,16 +219,16 @@ const Events = () => {
                         </p>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="sm" className="gap-2 border-border">
+                                <Button variant="outline" size="sm" className="gap-2 border-emerald-100 text-emerald-900 hover:bg-emerald-50">
                                     <Download className="w-4 h-4" />
                                     Export
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
-                                <DropdownMenuItem onClick={() => exportToJSON(sortedEvents, "lagos_events_export")} className="hover:bg-intelligence-primary/10">
+                                <DropdownMenuItem onClick={() => exportToJSON(sortedEvents, "lagos_events_export")} className="hover:bg-emerald-50 text-emerald-900">
                                     Export as JSON
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => exportToCSV(sortedEvents.map(e => ({ name: e.name, date: e.date, type: e.type, location: e.location, attendance: e.estimatedAttendance, budget: `${e.budget.min}-${e.budget.max} ${e.budget.currency}` })), "lagos_events_export")} className="hover:bg-intelligence-primary/10">
+                                <DropdownMenuItem onClick={() => exportToCSV(sortedEvents.map(e => ({ name: e.name, date: e.date, type: e.type, location: e.location, attendance: e.estimatedAttendance, budget: `${e.budget.min}-${e.budget.max} ${e.budget.currency}` })), "lagos_events_export")} className="hover:bg-emerald-50 text-emerald-900">
                                     Export as CSV
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -239,7 +239,7 @@ const Events = () => {
                     {sortedEvents.length === 0 ? (
                         <div className="text-center py-20 bg-background/50 rounded-xl border-2 border-dashed border-border">
                             <p className="text-lg text-muted-foreground">No events found matching your filters.</p>
-                            <Button variant="outline" onClick={resetEventFilters} className="mt-4 border-intelligence-primary/50 hover:bg-intelligence-primary/10">
+                            <Button variant="outline" onClick={resetEventFilters} className="mt-4 border-emerald-700 text-emerald-700 hover:bg-emerald-50">
                                 Reset Filters
                             </Button>
                         </div>

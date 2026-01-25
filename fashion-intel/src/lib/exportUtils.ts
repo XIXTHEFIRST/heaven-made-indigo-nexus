@@ -7,7 +7,7 @@
  * @param data The data to export.
  * @param filename The name of the file (without extension).
  */
-export const exportToJSON = (data: any, filename: string) => {
+export const exportToJSON = <T,>(data: T, filename: string) => {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -24,7 +24,7 @@ export const exportToJSON = (data: any, filename: string) => {
  * @param data An array of objects to export.
  * @param filename The name of the file (without extension).
  */
-export const exportToCSV = (data: any[], filename: string) => {
+export const exportToCSV = <T extends Record<string, unknown>>(data: T[], filename: string) => {
     if (data.length === 0) return;
 
     const headers = Object.keys(data[0]);

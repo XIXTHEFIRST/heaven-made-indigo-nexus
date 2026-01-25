@@ -139,6 +139,7 @@ export interface MyEvent {
     budgetGoal: number;
     currency: string | Currency;
     uniqueAngle: string;
+    assets?: string[];
     status: "draft" | "planned" | "active";
     aiRecommendations?: {
         marketGaps: Array<{
@@ -284,4 +285,27 @@ export interface FilterState {
     };
     industries: Industry[];
     tiers: SponsorshipTier[];
+}
+
+export interface Task {
+    id: string;
+    title: string;
+    description?: string;
+    status: 'todo' | 'in-progress' | 'review' | 'done';
+    priority: 'low' | 'medium' | 'high' | 'urgent';
+    category: 'research' | 'outreach' | 'logistics' | 'content' | 'other';
+    dueDate?: Date;
+    assignedTo?: string;
+    createdBy: string;
+    entityType?: 'event' | 'sponsor';
+    entityId?: string;
+    createdAt: Date;
+    assignee?: {
+        full_name: string;
+        avatar_url?: string;
+    };
+    creator?: {
+        full_name: string;
+        avatar_url?: string;
+    };
 }

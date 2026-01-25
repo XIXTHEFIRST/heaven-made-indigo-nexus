@@ -1,27 +1,48 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lagos Fashion Intelligence — Analytical Market Insights</title>
-    <meta name="description" content="Comprehensive intelligence database for Lagos fashion events, sponsors, and market gaps." />
-    <meta name="author" content="Lagos Fashion Intel" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <meta property="og:title" content="Lagos Fashion Intelligence — Analytics & Market Insights" />
-    <meta property="og:description" content="The definitive intelligence platform for Lagos fashion stakeholders." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og-image.png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lagos Fashion Intelligence — Analytical Market Insights</title>
+  <meta name="description"
+    content="Comprehensive intelligence database for Lagos fashion events, sponsors, and market gaps." />
+  <meta name="author" content="Lagos Fashion Intel" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@200;300;400;500;600;700&display=swap"
+    rel="stylesheet">
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@LagosFashionIntel" />
-    <meta name="twitter:image" content="/og-image.png" />
-  </head>
+  <meta property="og:title" content="Lagos Fashion Intelligence — Analytics & Market Insights" />
+  <meta property="og:description" content="The definitive intelligence platform for Lagos fashion stakeholders." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.png" />
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@LagosFashionIntel" />
+  <meta name="twitter:image" content="/og-image.png" />
+
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="apple-touch-icon" href="/lagos_fashion_intel_logo.png" />
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(reg => {
+          console.log('SW registered:', reg);
+        }).catch(err => {
+          console.log('SW registration failed:', err);
+        });
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

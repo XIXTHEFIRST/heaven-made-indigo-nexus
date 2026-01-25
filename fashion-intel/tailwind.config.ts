@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -73,12 +74,12 @@ export default {
         ivory: "hsl(var(--ivory))",
         silver: "hsl(var(--silver))",
         intelligence: {
-          primary: "hsl(var(--intelligence-primary))",
-          "primary-light": "hsl(var(--intelligence-primary-light))",
-          "primary-dark": "hsl(var(--intelligence-primary-dark))",
-          accent: "hsl(var(--intelligence-accent))",
-          "accent-light": "hsl(var(--intelligence-accent-light))",
-          "accent-dark": "hsl(var(--intelligence-accent-dark))",
+          primary: "#059669",
+          "primary-light": "#ecfdf5",
+          "primary-dark": "#064e3b",
+          accent: "#10b981",
+          "accent-light": "#f0fdf4",
+          "accent-dark": "#065f46",
         },
         data: {
           purple: "hsl(var(--data-purple))",
@@ -170,5 +171,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindAnimate],
 } satisfies Config;

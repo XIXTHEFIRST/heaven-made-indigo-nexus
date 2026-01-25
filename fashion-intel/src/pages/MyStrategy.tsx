@@ -10,7 +10,9 @@ import {
     Search,
     BrainCircuit,
     Sparkles,
-    Trash2
+    Trash2,
+    Download,
+    Share2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -20,6 +22,7 @@ import { Link } from "react-router-dom";
 import { useIntelligenceStore } from "@/stores/intelligenceStore";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { generateStrategyPDF, shareStrategy } from "@/lib/pdfUtils";
 
 const MyStrategy = () => {
     const { myEvents, deleteMyEvent } = useIntelligenceStore();
@@ -41,8 +44,8 @@ const MyStrategy = () => {
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                         >
-                            <h1 className="text-4xl font-serif font-bold text-white mb-2 flex items-center gap-3">
-                                <BrainCircuit className="w-8 h-8 text-intelligence-primary" />
+                            <h1 className="text-4xl font-serif font-bold text-black mb-2 flex items-center gap-3">
+                                <BrainCircuit className="w-8 h-8 text-emerald-700" />
                                 My Event Strategy Hub
                             </h1>
                             <p className="text-muted-foreground">Architecting high-conversion fashion events with AI-powered market positioning.</p>
@@ -53,7 +56,7 @@ const MyStrategy = () => {
                             animate={{ x: 0, opacity: 1 }}
                         >
                             <Link to="/my-strategy/build">
-                                <Button className="bg-intelligence-primary hover:bg-intelligence-primary-dark gap-2 shadow-lg shadow-intelligence-primary/20 h-12 px-8 rounded-xl font-bold">
+                                <Button className="bg-emerald-700 hover:bg-emerald-800 text-white gap-2 shadow-lg shadow-emerald-700/20 h-12 px-8 rounded-xl font-bold">
                                     <Plus className="w-5 h-5" />
                                     Build New Strategy
                                 </Button>
@@ -68,7 +71,7 @@ const MyStrategy = () => {
                                 <Search className="absolute left-4 top-3.5 h-5 w-5 text-muted-foreground" />
                                 <Input
                                     placeholder="Search your strategy models..."
-                                    className="pl-12 h-12 glass-dark border-white/10 rounded-xl"
+                                    className="pl-12 h-12 glass-dark border-emerald-100 rounded-xl bg-white shadow-sm"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
@@ -76,16 +79,16 @@ const MyStrategy = () => {
 
                             <div className="space-y-4">
                                 {filteredEvents.length === 0 ? (
-                                    <div className="p-20 text-center border-2 border-dashed border-white/5 rounded-3xl glass-dark group hover:border-intelligence-primary/20 transition-all">
-                                        <div className="w-16 h-16 bg-intelligence-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                                            <Sparkles className="w-8 h-8 text-intelligence-primary" />
+                                    <div className="p-20 text-center border-2 border-dashed border-emerald-100 rounded-3xl bg-emerald-50/20 group hover:border-emerald-300 transition-all">
+                                        <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform border border-emerald-100">
+                                            <Sparkles className="w-8 h-8 text-emerald-700" />
                                         </div>
                                         <h3 className="text-xl font-serif font-bold mb-2">No Strategies Found</h3>
                                         <p className="text-muted-foreground max-w-sm mx-auto mb-8">
                                             You haven't architected any event strategies yet. Use the coach to find market gaps and match with donors.
                                         </p>
                                         <Link to="/my-strategy/build">
-                                            <Button variant="outline" className="border-intelligence-primary/50 text-intelligence-primary">
+                                            <Button variant="outline" className="border-emerald-700 text-emerald-700 hover:bg-emerald-50">
                                                 Initialize Strategy Wizard
                                             </Button>
                                         </Link>
@@ -98,7 +101,7 @@ const MyStrategy = () => {
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: idx * 0.05 }}
                                         >
-                                            <Card className="glass-dark border-white/5 hover:border-intelligence-primary/20 transition-all duration-300 group overflow-hidden">
+                                            <Card className="glass-dark border-emerald-100 hover:border-emerald-300 transition-all duration-300 group overflow-hidden bg-white shadow-sm">
                                                 <CardContent className="p-0">
                                                     <div className="flex flex-col md:flex-row">
                                                         <div className="p-6 flex-1 flex flex-col justify-between">
@@ -114,18 +117,18 @@ const MyStrategy = () => {
                                                                         {event.status}
                                                                     </Badge>
                                                                 </div>
-                                                                <h3 className="text-2xl font-serif font-bold group-hover:text-intelligence-primary transition-colors">{event.name}</h3>
+                                                                <h3 className="text-2xl font-serif font-bold group-hover:text-emerald-700 transition-colors text-black">{event.name}</h3>
                                                                 <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{event.uniqueAngle}</p>
                                                             </div>
 
                                                             <div className="flex items-center gap-6 mt-6 pt-4 border-t border-white/5">
                                                                 <div className="flex flex-col">
-                                                                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Sponsor Matches</span>
-                                                                    <span className="text-lg font-bold text-intelligence-accent">{event.aiRecommendations?.sponsorMatches.length || 0} Targets</span>
+                                                                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Sponsor Targets</span>
+                                                                    <span className="text-lg font-bold text-emerald-800">{event.aiRecommendations?.sponsorMatches.length || 0} Targets</span>
                                                                 </div>
                                                                 <div className="flex flex-col">
                                                                     <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Market Gaps</span>
-                                                                    <span className="text-lg font-bold text-intelligence-primary">{event.aiRecommendations?.marketGaps.length || 0} Identified</span>
+                                                                    <span className="text-lg font-bold text-emerald-600">{event.aiRecommendations?.marketGaps.length || 0} Identified</span>
                                                                 </div>
                                                                 <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
                                                                     <Button
@@ -141,17 +144,38 @@ const MyStrategy = () => {
                                                                     >
                                                                         <Trash2 className="w-4 h-4" />
                                                                     </Button>
-                                                                    <Button variant="outline" className="border-white/10 hover:bg-white/5 gap-2">
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="text-muted-foreground hover:text-emerald-700"
+                                                                        onClick={() => generateStrategyPDF(event)}
+                                                                        title="Download PDF Report"
+                                                                    >
+                                                                        <Download className="w-4 h-4" />
+                                                                    </Button>
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="text-muted-foreground hover:text-emerald-700"
+                                                                        onClick={async () => {
+                                                                            const res = await shareStrategy(event);
+                                                                            if (res === "copied") toast.success("Summary copied to clipboard!");
+                                                                        }}
+                                                                        title="Share Strategy"
+                                                                    >
+                                                                        <Share2 className="w-4 h-4" />
+                                                                    </Button>
+                                                                    <Button variant="outline" className="border-emerald-100 hover:bg-emerald-50 gap-2 text-emerald-900">
                                                                         Manage Strategy <ArrowRight className="w-4 h-4" />
                                                                     </Button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="w-full md:w-32 bg-intelligence-primary/5 border-l border-white/5 flex flex-col items-center justify-center p-4 gap-2 text-center">
-                                                            <div className="w-12 h-12 rounded-full bg-intelligence-primary/20 flex items-center justify-center">
-                                                                <Zap className="w-6 h-6 text-intelligence-primary" />
+                                                        <div className="w-full md:w-32 bg-emerald-50 border-l border-emerald-100 flex flex-col items-center justify-center p-4 gap-2 text-center">
+                                                            <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center">
+                                                                <Zap className="w-6 h-6 text-emerald-700" />
                                                             </div>
-                                                            <span className="text-[10px] font-bold text-intelligence-primary">ANALYSIS READY</span>
+                                                            <span className="text-[10px] font-bold text-emerald-700">ANALYSIS READY</span>
                                                         </div>
                                                     </div>
                                                 </CardContent>
@@ -164,28 +188,28 @@ const MyStrategy = () => {
 
                         {/* Sidebar */}
                         <div className="space-y-6">
-                            <Card className="glass-premium border-white/10 overflow-hidden">
-                                <div className="p-6 bg-gradient-to-br from-intelligence-primary/20 to-transparent">
-                                    <h3 className="text-xl font-serif font-bold mb-2">Coach Insight</h3>
+                            <Card className="glass-premium border-emerald-100 overflow-hidden bg-white shadow-sm">
+                                <div className="p-6 bg-emerald-50/50">
+                                    <h3 className="text-xl font-serif font-bold mb-2 text-black">Coach Insight</h3>
                                     <p className="text-sm text-muted-foreground leading-relaxed">
-                                        Your current strategy pipeline focuses on <span className="text-white font-medium">Ready-to-Wear</span>.
-                                        Market data suggests a 40% higher win-rate for <span className="text-intelligence-accent font-medium">Streetwear Collaborations</span> this quarter.
+                                        Your current strategy pipeline focuses on <span className="text-emerald-900 font-medium font-serif">Ready-to-Wear</span>.
+                                        Market data suggests a 40% higher win-rate for <span className="text-emerald-700 font-bold italic">Streetwear Collaborations</span> this quarter.
                                     </p>
                                 </div>
                                 <CardContent className="p-6 space-y-4">
                                     <div className="flex items-center justify-between">
                                         <span className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Intelligence Score</span>
-                                        <span className="text-sm font-bold text-intelligence-primary">B+ High Potential</span>
+                                        <span className="text-sm font-bold text-emerald-700">B+ High Potential</span>
                                     </div>
-                                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                                        <div className="h-full bg-gradient-to-r from-intelligence-primary to-intelligence-accent w-[78%]" />
+                                    <div className="h-2 bg-emerald-50 rounded-full overflow-hidden border border-emerald-100">
+                                        <div className="h-full bg-emerald-600 w-[78%]" />
                                     </div>
                                 </CardContent>
                             </Card>
 
-                            <Card className="glass-dark border-white/10">
+                            <Card className="glass-dark border-emerald-100 bg-white shadow-sm">
                                 <CardHeader>
-                                    <CardTitle className="text-lg">Strategy Checklist</CardTitle>
+                                    <CardTitle className="text-lg text-black">Strategy Checklist</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-3">
                                     {[
@@ -195,7 +219,7 @@ const MyStrategy = () => {
                                         "Map Sponsor Alignment"
                                     ].map((item, i) => (
                                         <div key={i} className="flex items-center gap-3 text-sm">
-                                            <div className="w-5 h-5 rounded border border-white/20 flex items-center justify-center text-[10px] font-bold">
+                                            <div className="w-5 h-5 rounded border border-emerald-200 flex items-center justify-center text-[10px] font-bold text-emerald-700 bg-emerald-50">
                                                 {i + 1}
                                             </div>
                                             <span className="text-muted-foreground">{item}</span>

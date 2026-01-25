@@ -12,8 +12,11 @@ import {
     Lightbulb,
     CheckCircle2,
     Loader2,
-    Save
+    Save,
+    FileText,
+    X
 } from "lucide-react";
+import FileUploader from "@/components/common/FileUploader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -31,6 +34,7 @@ import { useIntelligenceStore } from "@/stores/intelligenceStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { EventType, Currency } from "@/types/intelligence";
+import { generateStrategyPDF, shareStrategy } from "@/lib/pdfUtils";
 
 const steps = [
     { id: 1, title: "Mission & Vision", icon: Lightbulb },
@@ -53,7 +57,8 @@ const BuildMyEvent = () => {
         targetAudience: "",
         budgetGoal: 5000000,
         currency: "NGN" as Currency,
-        uniqueAngle: ""
+        uniqueAngle: "",
+        assets: [] as string[]
     });
 
     const currentEvent = getMyEventById(newId);
@@ -103,12 +108,12 @@ const BuildMyEvent = () => {
 
                             return (
                                 <div key={step.id} className="relative z-10 flex flex-col items-center">
-                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${isActive ? "bg-intelligence-primary text-black scale-110 shadow-lg shadow-intelligence-primary/20" :
-                                        isCompleted ? "bg-green-500 text-white" : "bg-white/5 text-muted-foreground border border-white/10"
+                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${isActive ? "bg-emerald-700 text-white scale-110 shadow-lg shadow-emerald-700/20" :
+                                        isCompleted ? "bg-emerald-500 text-white" : "bg-emerald-50 text-emerald-700 border border-emerald-100"
                                         }`}>
                                         {isCompleted ? <CheckCircle2 className="w-6 h-6" /> : <Icon className="w-6 h-6" />}
                                     </div>
-                                    <span className={`text-[10px] mt-2 uppercase font-bold tracking-widest ${isActive ? "text-intelligence-primary" : "text-muted-foreground"}`}>
+                                    <span className={`text-[10px] mt-2 uppercase font-bold tracking-widest ${isActive ? "text-emerald-700" : "text-muted-foreground"}`}>
                                         {step.title}
                                     </span>
                                 </div>
@@ -125,12 +130,12 @@ const BuildMyEvent = () => {
                             className="glass-dark border-white/5 rounded-3xl p-8 md:p-12 overflow-hidden relative"
                         >
                             {/* Visual Background Flair */}
-                            <div className="absolute -top-24 -right-24 w-64 h-64 bg-intelligence-primary/5 rounded-full blur-3xl" />
+                            <div className="absolute -top-24 -right-24 w-64 h-64 bg-emerald-50 rounded-full blur-3xl opacity-50" />
 
                             {currentStep === 1 && (
                                 <div className="space-y-8">
                                     <div className="space-y-2">
-                                        <h2 className="text-3xl font-serif font-bold text-white">The Designer's Vision</h2>
+                                        <h2 className="text-3xl font-serif font-bold text-black">The Designer's Vision</h2>
                                         <p className="text-muted-foreground italic">Define the core identity of your upcoming fashion project.</p>
                                     </div>
 
@@ -140,7 +145,7 @@ const BuildMyEvent = () => {
                                             <Input
                                                 id="name"
                                                 placeholder="e.g. Lagos Streetwear Summit 2026"
-                                                className="glass-dark border-white/10 h-12"
+                                                className="bg-white border-emerald-100 h-12 text-emerald-950"
                                                 value={formData.name}
                                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                             />
@@ -151,10 +156,10 @@ const BuildMyEvent = () => {
                                                 value={formData.type}
                                                 onValueChange={(val: EventType) => setFormData({ ...formData, type: val })}
                                             >
-                                                <SelectTrigger className="glass-dark border-white/10 h-12">
+                                                <SelectTrigger className="bg-white border-emerald-100 h-12 text-emerald-950">
                                                     <SelectValue placeholder="Select type" />
                                                 </SelectTrigger>
-                                                <SelectContent className="bg-charcoal-light border-white/10 text-white">
+                                                <SelectContent className="bg-white border-emerald-100 text-emerald-950">
                                                     <SelectItem value="RUNWAY_SHOW">Runway Show</SelectItem>
                                                     <SelectItem value="FASHION_WEEK">Fashion Week</SelectItem>
                                                     <SelectItem value="POP_UP">Pop-up Shop</SelectItem>
@@ -170,7 +175,7 @@ const BuildMyEvent = () => {
                                         <Input
                                             id="audience"
                                             placeholder="e.g. Gen-Z Creatives, Tech-forward Lagosians, HNWIs"
-                                            className="glass-dark border-white/10 h-12"
+                                            className="bg-white border-emerald-100 h-12 text-emerald-950"
                                             value={formData.targetAudience}
                                             onChange={(e) => setFormData({ ...formData, targetAudience: e.target.value })}
                                         />
@@ -181,25 +186,60 @@ const BuildMyEvent = () => {
                                         <Textarea
                                             id="angle"
                                             placeholder="What makes this event different? (e.g. focused on sustainable local fabrics, integrating AR showpieces, under-the-bridge venue)"
-                                            className="glass-dark border-white/10 min-h-[120px]"
+                                            className="bg-white border-emerald-100 min-h-[120px] text-black"
                                             value={formData.uniqueAngle}
                                             onChange={(e) => setFormData({ ...formData, uniqueAngle: e.target.value })}
                                         />
                                         <p className="text-xs text-muted-foreground flex items-center gap-1">
-                                            <Zap className="w-3 h-3 text-intelligence-primary" />
+                                            <Zap className="w-3 h-3 text-emerald-700" />
                                             The Coach uses this to compare against 100+ analyzed Lagos fashion events.
                                         </p>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <Label>Project Assets (Mood Boards, Venue PDFs, Concepts)</Label>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                            {formData.assets.map((asset, i) => (
+                                                <div key={i} className="relative group aspect-square rounded-2xl overflow-hidden border border-white/5 bg-white/5 p-2">
+                                                    {asset.toLowerCase().endsWith('.pdf') ? (
+                                                        <div className="w-full h-full flex flex-col items-center justify-center text-center">
+                                                            <FileText className="w-8 h-8 text-intelligence-primary mb-2" />
+                                                            <span className="text-[10px] text-muted-foreground truncate w-full px-2">PDF Document</span>
+                                                        </div>
+                                                    ) : (
+                                                        <img src={asset} alt="Asset" className="w-full h-full object-cover rounded-xl" />
+                                                    )}
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            setFormData({ ...formData, assets: formData.assets.filter((_, idx) => idx !== i) });
+                                                        }}
+                                                        className="absolute top-2 right-2 p-1.5 bg-black/60 backdrop-blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    >
+                                                        <X className="w-3 h-3 text-white" />
+                                                    </button>
+                                                </div>
+                                            ))}
+                                            <div className="col-span-1">
+                                                <FileUploader
+                                                    bucket="event-assets"
+                                                    path={`my-events/${newId}`}
+                                                    onUploadComplete={(url) => setFormData({ ...formData, assets: [...formData.assets, url] })}
+                                                    label="Add Asset"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             )}
 
                             {currentStep === 2 && (
                                 <div className="space-y-8 text-center py-10">
-                                    <div className="w-20 h-20 bg-intelligence-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                                        {isGenerating ? <Loader2 className="w-10 h-10 text-intelligence-primary animate-spin" /> : <Target className="w-10 h-10 text-intelligence-primary" />}
+                                    <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-100">
+                                        {isGenerating ? <Loader2 className="w-10 h-10 text-emerald-700 animate-spin" /> : <Target className="w-10 h-10 text-emerald-700" />}
                                     </div>
                                     <div className="space-y-2">
-                                        <h2 className="text-3xl font-serif font-bold text-white">Identifying Market Gaps</h2>
+                                        <h2 className="text-3xl font-serif font-bold text-black">Identifying Market Gaps</h2>
                                         <p className="text-muted-foreground">We are cross-referencing your project against 42 documented event failures and 15 success patterns in your category.</p>
                                     </div>
 
@@ -220,8 +260,8 @@ const BuildMyEvent = () => {
                                             {currentEvent?.aiRecommendations?.marketGaps.map((gap, i) => (
                                                 <div key={i} className="p-4 rounded-2xl bg-white/5 border border-white/5 space-y-2">
                                                     <div className="flex gap-3">
-                                                        <div className="mt-1"><Zap className="w-4 h-4 text-intelligence-accent" /></div>
-                                                        <h4 className="text-sm font-bold text-white">{gap.title}</h4>
+                                                        <div className="mt-1"><Zap className="w-4 h-4 text-emerald-600" /></div>
+                                                        <h4 className="text-sm font-bold text-black">{gap.title}</h4>
                                                     </div>
                                                     <p className="text-xs text-muted-foreground ml-7">{gap.description}</p>
                                                 </div>
@@ -234,7 +274,7 @@ const BuildMyEvent = () => {
                             {currentStep === 3 && (
                                 <div className="space-y-8">
                                     <div className="space-y-2">
-                                        <h2 className="text-3xl font-serif font-bold text-white">Sponsor Target Matrix</h2>
+                                        <h2 className="text-3xl font-serif font-bold text-black">Sponsor Target Matrix</h2>
                                         <p className="text-muted-foreground">The Matchmaker identified these brands based on their recent spending behavior and "careabouts".</p>
                                     </div>
 
@@ -242,11 +282,11 @@ const BuildMyEvent = () => {
                                         {currentEvent?.aiRecommendations?.sponsorMatches.map((match, i) => (
                                             <div key={i} className="p-6 rounded-3xl glass-premium border border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-14 h-14 rounded-full bg-intelligence-primary/20 flex items-center justify-center text-lg font-bold">
+                                                    <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg font-bold border border-emerald-100">
                                                         {match.sponsorId.substring(0, 1)}
                                                     </div>
                                                     <div>
-                                                        <h4 className="font-bold text-lg text-white">Target ID: {match.sponsorId}</h4>
+                                                        <h4 className="font-bold text-lg text-black">Target ID: {match.sponsorId}</h4>
                                                         <p className="text-sm text-muted-foreground">{match.reason}</p>
                                                     </div>
                                                 </div>
@@ -260,8 +300,8 @@ const BuildMyEvent = () => {
                                         ))}
                                     </div>
 
-                                    <div className="p-6 rounded-3xl bg-intelligence-accent/5 border border-intelligence-accent/20">
-                                        <p className="text-sm text-intelligence-accent font-medium leading-relaxed italic">
+                                    <div className="p-6 rounded-3xl bg-emerald-50 border border-emerald-100">
+                                        <p className="text-sm text-emerald-700 font-medium leading-relaxed italic">
                                             "Pro-Tip: Most sponsors in your match list are currently looking for 'Community Depth' rather than just 'Logo Slapping'. Adjust your pitch accordingly."
                                         </p>
                                     </div>
@@ -274,7 +314,7 @@ const BuildMyEvent = () => {
                                         <div className="w-16 h-16 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <CheckCircle2 className="w-8 h-8" />
                                         </div>
-                                        <h2 className="text-3xl font-serif font-bold text-white">Strategy Blueprint Locked</h2>
+                                        <h2 className="text-3xl font-serif font-bold text-black">Strategy Blueprint Locked</h2>
                                         <p className="text-muted-foreground">Your project architecture is ready for the pitch phase.</p>
                                     </div>
 
@@ -287,7 +327,7 @@ const BuildMyEvent = () => {
                                                 </div>
                                                 <div>
                                                     <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Market Class</span>
-                                                    <h3 className="text-xl font-bold mt-1 text-intelligence-primary">{formData.type.replace('_', ' ')}</h3>
+                                                    <h3 className="text-xl font-bold mt-1 text-emerald-700">{formData.type.replace('_', ' ')}</h3>
                                                 </div>
                                             </div>
 
@@ -301,11 +341,22 @@ const BuildMyEvent = () => {
                                     </Card>
 
                                     <div className="flex gap-4">
-                                        <Button className="flex-1 bg-white text-black hover:bg-white/90 font-bold h-12">
+                                        <Button
+                                            onClick={() => currentEvent && generateStrategyPDF(currentEvent)}
+                                            className="flex-1 bg-white border-slate-200 text-black hover:bg-slate-50 font-bold h-12 shadow-sm"
+                                        >
                                             Download Pitch Primer (PDF)
                                         </Button>
-                                        <Button className="flex-1 bg-intelligence-primary hover:bg-intelligence-primary-dark text-black font-bold h-12">
-                                            Export to Google Slides
+                                        <Button
+                                            onClick={async () => {
+                                                if (currentEvent) {
+                                                    const res = await shareStrategy(currentEvent);
+                                                    if (res === "copied") toast.success("Strategy summary copied to clipboard!");
+                                                }
+                                            }}
+                                            className="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold h-12 shadow-md shadow-emerald-700/10"
+                                        >
+                                            Share Strategy
                                         </Button>
                                     </div>
                                 </div>
@@ -326,7 +377,7 @@ const BuildMyEvent = () => {
                                     <Button
                                         onClick={handleNext}
                                         disabled={isGenerating}
-                                        className="gap-2 bg-intelligence-primary hover:bg-intelligence-primary-dark text-black px-8 h-12 font-bold"
+                                        className="gap-2 bg-emerald-700 hover:bg-emerald-800 text-white px-8 h-12 font-bold shadow-lg shadow-emerald-700/20"
                                     >
                                         {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : (currentStep === 2 ? "Run Intelligence Cross-Analysis" : "Proceed")}
                                         {!isGenerating && <ArrowRight className="w-4 h-4" />}
@@ -334,7 +385,7 @@ const BuildMyEvent = () => {
                                 ) : (
                                     <Button
                                         onClick={handleFinish}
-                                        className="gap-2 bg-intelligence-primary hover:bg-intelligence-primary-dark text-black px-8 h-12 font-bold"
+                                        className="gap-2 bg-emerald-700 hover:bg-emerald-800 text-white px-8 h-12 font-bold shadow-lg shadow-emerald-700/20"
                                     >
                                         Seal Strategy Hub <CheckCircle2 className="w-4 h-4" />
                                     </Button>

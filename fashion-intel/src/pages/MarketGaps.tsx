@@ -79,10 +79,10 @@ const MarketGaps = () => {
                         className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8"
                     >
                         <div>
-                            <h1 className="text-4xl font-serif font-bold mb-2">Market Gap Analysis</h1>
+                            <h1 className="text-4xl font-serif font-bold mb-2 text-black">Market Gap Analysis</h1>
                             <p className="text-muted-foreground italic">Identifying untapped opportunities in the Lagos fashion ecosystem</p>
                         </div>
-                        <Badge variant="outline" className="h-8 px-4 border-intelligence-primary/30 text-intelligence-primary bg-intelligence-primary/5">
+                        <Badge variant="outline" className="h-8 px-4 border-emerald-200 text-emerald-700 bg-emerald-50">
                             Last Analysis: Today
                         </Badge>
                     </motion.div>
@@ -99,7 +99,7 @@ const MarketGaps = () => {
                                 title="Identified Gaps"
                                 value={totalGaps.toString()}
                                 icon={TrendingUp}
-                                className="glass-premium"
+                                className="glass-premium border-emerald-100 bg-white"
                             />
                         </motion.div>
                         <motion.div variants={itemVariants}>
@@ -115,7 +115,7 @@ const MarketGaps = () => {
                                 title="High Opportunity"
                                 value={highOpportunity.toString()}
                                 icon={Zap}
-                                className="border-intelligence-accent/20 bg-intelligence-accent/5"
+                                className="border-emerald-200 bg-emerald-50/50"
                             />
                         </motion.div>
                         <motion.div variants={itemVariants}>
@@ -123,7 +123,7 @@ const MarketGaps = () => {
                                 title="Potential Revenue"
                                 value={`₦${(potentialRevenue / 1000000000).toFixed(1)}B`}
                                 icon={Target}
-                                className="glass-premium"
+                                className="glass-premium border-emerald-100 bg-white"
                             />
                         </motion.div>
                     </motion.div>
@@ -203,7 +203,7 @@ const MarketGaps = () => {
                                                 <Badge className="mb-2 bg-intelligence-primary/10 text-intelligence-primary border-none">
                                                     {gap.type}
                                                 </Badge>
-                                                <CardTitle className="text-2xl group-hover:text-intelligence-primary transition-colors">
+                                                <CardTitle className="text-2xl group-hover:text-emerald-700 transition-colors text-black">
                                                     {gap.title}
                                                 </CardTitle>
                                             </div>
@@ -230,21 +230,21 @@ const MarketGaps = () => {
                                             <div className="p-3 bg-muted/40 rounded-xl space-y-1">
                                                 <p className="text-xs text-muted-foreground uppercase tracking-tight">Potential Revenue</p>
                                                 <div className="flex items-center gap-2">
-                                                    <Target className="w-4 h-4 text-intelligence-accent" />
-                                                    <span className="font-bold text-sm text-intelligence-accent">₦{(gap.potentialRevenue! / 1000000).toFixed(1)}M</span>
+                                                    <Target className="w-4 h-4 text-emerald-700" />
+                                                    <span className="font-bold text-sm text-black">₦{(gap.potentialRevenue! / 1000000).toFixed(1)}M</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="space-y-3">
-                                            <p className="text-sm font-bold flex items-center gap-2">
-                                                <BrainCircuit className="w-4 h-4 text-intelligence-primary" />
+                                            <p className="text-sm font-bold flex items-center gap-2 text-black">
+                                                <BrainCircuit className="w-4 h-4 text-emerald-700" />
                                                 Strategic Recommendations:
                                             </p>
                                             <ul className="space-y-2">
                                                 {gap.recommendations.map((rec, i) => (
-                                                    <li key={i} className="text-sm flex items-start gap-2 bg-intelligence-primary/5 p-2 rounded-lg border border-intelligence-primary/10">
-                                                        <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-intelligence-primary flex-shrink-0" />
+                                                    <li key={i} className="text-sm flex items-start gap-2 bg-emerald-50/50 p-2 rounded-lg border border-emerald-100/50 text-emerald-900">
+                                                        <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-700 flex-shrink-0" />
                                                         {rec}
                                                     </li>
                                                 ))}

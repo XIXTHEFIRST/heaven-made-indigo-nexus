@@ -35,7 +35,7 @@ export const SponsorCard = ({ sponsor, onEdit }: SponsorCardProps) => {
                         <div className="flex-1">
                             <div className="flex items-center gap-2 mb-2">
                                 <Building2 className="w-5 h-5 text-intelligence-accent" />
-                                <h3 className="text-xl font-semibold group-hover:text-intelligence-primary transition-colors">
+                                <h3 className="text-xl font-serif font-bold group-hover:text-emerald-700 transition-colors text-black">
                                     {sponsor.name}
                                 </h3>
                             </div>

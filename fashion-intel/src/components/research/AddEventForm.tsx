@@ -21,7 +21,8 @@ import {
     DollarSign,
     Zap,
     MessageSquare,
-    AlertCircle
+    AlertCircle,
+    Sparkles
 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -52,9 +53,10 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { Scale } from "lucide-react";
-import { EventType, SponsorshipTier } from "@/types/intelligence";
+import { EventType, SponsorshipTier, Event as IntelEvent } from "@/types/intelligence";
 import { useIntelligenceStore } from "@/stores/intelligenceStore";
 import { toast } from "sonner";
+import { useGeminiAnalysis } from "@/hooks/useGeminiAnalysis";
 
 const LAGOS_VENUES = [
     "Eko Hotel & Suites",
@@ -111,7 +113,7 @@ type EventFormValues = z.infer<typeof eventSchema>;
 interface AddEventFormProps {
     onClose: () => void;
     onSuccess?: () => void;
-    initialData?: any;
+    initialData?: IntelEvent | null;
 }
 
 const AddEventForm: React.FC<AddEventFormProps> = ({ onClose, onSuccess, initialData }) => {
@@ -120,6 +122,7 @@ const AddEventForm: React.FC<AddEventFormProps> = ({ onClose, onSuccess, initial
     const [previewUrl, setPreviewUrl] = useState<string | null>(initialData?.bannerImage || null);
     const [isVenuesOpen, setIsVenuesOpen] = useState(false);
     const { addEvent, updateEvent, sponsors, generateAutopsy } = useIntelligenceStore();
+    const { analyze, loading: isAnalyzing } = useGeminiAnalysis();
 
     const form = useForm<EventFormValues>({
         resolver: zodResolver(eventSchema),
@@ -164,33 +167,59 @@ const AddEventForm: React.FC<AddEventFormProps> = ({ onClose, onSuccess, initial
         }
     };
 
+    const handleAIAnalysis = async () => {
+        const values = form.getValues();
+        const brand = "Independent Researcher"; // Organizer is not in the form schema
+
+        const result = await analyze(
+            values.name,
+            brand,
+            values.type,
+            values.description
+        );
+
+        if (result) {
+            form.setValue("analysis.whatWorked", result.whatWorked);
+            form.setValue("analysis.whatFlopped", result.whatFlopped);
+            // We can also store the other insights in the description or as hidden metadata
+            form.setValue("successMetrics.mediaCoverage", result.competitiveInsights);
+            toast.success("Intelligence fields populated with AI insights!");
+        }
+    };
+
     const onSubmit = async (values: EventFormValues) => {
         try {
             const finalData = {
                 ...values,
-                organizer: "Industry Research",
-                sponsors: values.intelSponsors.map(s => s.sponsorId),
+                id: initialData?.id || crypto.randomUUID(),
+                status: values.status as "upcoming" | "completed" | "cancelled",
+                created_at: initialData?.created_at || new Date(),
+                created_by: initialData?.created_by || "coach-ai",
+                organizer: "Industry Research", // Assuming a default organizer for now
+                sponsors: values.intelSponsors.map(s => s.sponsorId), // Map intelSponsors to simple sponsor IDs
                 budget: {
                     min: Math.min(...values.intelSponsors.map(s => s.dealAmount)),
                     max: values.intelSponsors.reduce((acc, s) => acc + s.dealAmount, 0),
-                    currency: "₦"
+                    currency: "NGN"
                 },
                 mediaMetrics: {
-                    socialReach: values.successMetrics.socialImpressions,
-                    pressArticles: values.successMetrics.mediaCoverage.split(',').length,
-                    instagramPosts: 0,
-                    twitterMentions: 0,
-                    engagement: 0
+                    socialReach: values.successMetrics.socialImpressions, // Directly use socialImpressions
+                    pressArticles: values.successMetrics.mediaCoverage.split(',').filter(Boolean).length, // Count non-empty articles
+                    instagramPosts: 0, // Default or calculate if needed
+                    twitterMentions: 0, // Default or calculate if needed
+                    engagement: 0 // Default or calculate if needed
                 },
                 recurring: false,
                 verification: { status: "estimated", confidence: 85 }
-            };
+            } as unknown as IntelEvent; // Cast to IntelEvent type
 
             if (isEditing) {
-                updateEvent(initialData.id, finalData as any);
+                const { id, created_at, created_by, ...updateData } = finalData;
+                updateEvent(initialData.id, updateData as Partial<IntelEvent>);
                 toast.success("Intelligence updated!");
             } else {
-                addEvent(finalData as any);
+                const { id, created_at, created_by, ...addData } = finalData;
+                addEvent(addData as Omit<IntelEvent, "id" | "created_at" | "created_by">);
                 // Trigger Autopsy Generation after slight delay
                 const newId = useIntelligenceStore.getState().events[0].id;
                 setTimeout(() => generateAutopsy(newId), 500);
@@ -205,7 +234,7 @@ const AddEventForm: React.FC<AddEventFormProps> = ({ onClose, onSuccess, initial
     };
 
     const nextStep = async () => {
-        let fieldsToValidate: any[] = [];
+        let fieldsToValidate: (keyof EventFormValues)[] = [];
         if (step === 1) fieldsToValidate = ["name", "date", "venue", "location"];
         if (step === 2) fieldsToValidate = ["type", "estimatedAttendance", "description"];
         if (step === 3) fieldsToValidate = ["intelSponsors", "successMetrics"];
@@ -478,12 +507,28 @@ const AddEventForm: React.FC<AddEventFormProps> = ({ onClose, onSuccess, initial
 
                             {step === 4 && (
                                 <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                                    <div className="p-4 rounded-xl bg-intelligence-accent/10 border border-intelligence-accent/20 flex gap-4">
-                                        <AlertCircle className="w-6 h-6 text-intelligence-accent shrink-0" />
-                                        <div>
-                                            <h4 className="font-bold text-intelligence-accent">Intelligence Autopsy</h4>
-                                            <p className="text-xs text-muted-foreground mt-1">Provide critical feedback to unlock AI market gap analysis and lesson generation.</p>
+                                    <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-100 flex gap-4 items-start justify-between">
+                                        <div className="flex gap-4">
+                                            <AlertCircle className="w-6 h-6 text-emerald-600 shrink-0" />
+                                            <div>
+                                                <h4 className="font-bold text-emerald-900">Intelligence Autopsy</h4>
+                                                <p className="text-xs text-muted-foreground mt-1">Provide critical feedback or let the AI analyze the event for you.</p>
+                                            </div>
                                         </div>
+                                        <Button
+                                            type="button"
+                                            onClick={handleAIAnalysis}
+                                            disabled={isAnalyzing}
+                                            variant="outline"
+                                            className="bg-white border-emerald-200 text-emerald-700 hover:bg-emerald-50 h-10 px-4 group shrink-0"
+                                        >
+                                            {isAnalyzing ? (
+                                                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                                            ) : (
+                                                <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
+                                            )}
+                                            {isAnalyzing ? "Analyzing..." : "AI Generate"}
+                                        </Button>
                                     </div>
 
                                     <FormField control={form.control} name="analysis.whatWorked" render={({ field }) => (
@@ -518,11 +563,11 @@ const AddEventForm: React.FC<AddEventFormProps> = ({ onClose, onSuccess, initial
                                         </FormItem>
                                     )} />
 
-                                    <div className="flex items-center gap-4 p-4 rounded-xl glass-premium border border-white/10">
-                                        <Scale className="w-8 h-8 text-intelligence-primary" />
+                                    <div className="flex items-center gap-4 p-4 rounded-xl shadow-sm border border-emerald-100 bg-emerald-50/30">
+                                        <Scale className="w-8 h-8 text-emerald-600" />
                                         <div className="text-xs">
-                                            <p className="font-bold uppercase tracking-tight">Intelligence Ready</p>
-                                            <p className="text-muted-foreground">Submitting this data will automatically trigger an AI-generated Event Autopsy Report in your library.</p>
+                                            <p className="font-bold uppercase tracking-tight text-emerald-900">Intelligence Ready</p>
+                                            <p className="text-emerald-700/70">Submitting this data will automatically trigger an AI-generated Event Autopsy Report in your library.</p>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -538,11 +583,11 @@ const AddEventForm: React.FC<AddEventFormProps> = ({ onClose, onSuccess, initial
                 <div className="flex gap-3">
                     {step > 1 && <Button variant="outline" onClick={prevStep} className="gap-2"><ChevronLeft className="w-4 h-4" /> Back</Button>}
                     {step < 4 ? (
-                        <Button type="button" onClick={nextStep} className="bg-intelligence-primary hover:bg-intelligence-primary-dark shadow-lg shadow-intelligence-primary/20 gap-2 font-bold">
+                        <Button type="button" onClick={nextStep} className="bg-emerald-700 hover:bg-emerald-800 text-white shadow-lg shadow-emerald-700/20 gap-2 font-bold">
                             Continue <ChevronRight className="w-4 h-4" />
                         </Button>
                     ) : (
-                        <Button disabled={form.formState.isSubmitting} onClick={form.handleSubmit(onSubmit)} className="bg-gradient-to-r from-intelligence-primary to-intelligence-accent hover:opacity-90 shadow-lg shadow-intelligence-primary/40 font-bold px-8">
+                        <Button disabled={form.formState.isSubmitting} onClick={form.handleSubmit(onSubmit)} className="bg-emerald-700 hover:bg-emerald-800 text-white shadow-lg shadow-emerald-700/40 font-bold px-8">
                             {form.formState.isSubmitting ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Zap className="w-4 h-4 mr-2" />}
                             Store & Analyze
                         </Button>

@@ -11,6 +11,8 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis
 import EventAutopsyReport from "@/components/events/EventAutopsyReport";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import TeamNotes from "@/components/collaboration/TeamNotes";
+import { TaskBoard } from "@/components/collaboration/TaskBoard";
 
 const EventDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -185,6 +187,11 @@ const EventDetail = () => {
                                 </CardContent>
                             </Card>
 
+                            {/* Action Items Section */}
+                            <div className="glass-dark rounded-3xl border border-white/10 p-8">
+                                <TaskBoard entityType="event" entityId={event.id} />
+                            </div>
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <ChartCard title="Target Demographics" description="Audience skew for this segment" className="border-white/5 bg-transparent p-0">
                                     <div className="h-[250px] mt-6">
@@ -284,6 +291,9 @@ const EventDetail = () => {
                                     </CardContent>
                                 </Card>
                             )}
+
+                            {/* Team Collaboration */}
+                            <TeamNotes entityType="event" entityId={event.id} />
                         </div>
                     </div>
                 </div>

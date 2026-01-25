@@ -76,7 +76,7 @@ export const EventCard = ({ event, isSelected, onToggleSelect, onEdit }: EventCa
                                     </Badge>
                                 )}
                             </div>
-                            <h3 className="text-xl font-serif font-bold mb-1 group-hover:text-intelligence-primary transition-colors leading-tight">
+                            <h3 className="text-xl font-serif font-bold text-black group-hover:text-emerald-700 transition-colors leading-tight">
                                 {event.name}
                             </h3>
                             <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
@@ -100,7 +100,7 @@ export const EventCard = ({ event, isSelected, onToggleSelect, onEdit }: EventCa
                         </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
                             <DollarSign className="w-3.5 h-3.5 text-intelligence-accent" />
-                            <span className="text-white font-bold">₦{(event.budget.max / 1000000).toFixed(1)}M</span>
+                            <span className="text-black font-bold">₦{(event.budget.max / 1000000).toFixed(1)}M</span>
                         </div>
                     </div>
 

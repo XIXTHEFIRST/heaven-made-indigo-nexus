@@ -6,7 +6,7 @@ import { ChartCard } from "@/components/intelligence/ChartCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useIntelligenceStore } from "@/stores/intelligenceStore";
-import { Industry } from "@/types/intelligence";
+import { Industry, Sponsor } from "@/types/intelligence";
 import { motion } from "framer-motion";
 import {
     PieChart,
@@ -45,7 +45,7 @@ const Sponsors = () => {
     } = useIntelligenceStore();
 
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-    const [editingSponsor, setEditingSponsor] = useState<any>(null);
+    const [editingSponsor, setEditingSponsor] = useState<Sponsor | null>(null);
 
     const filteredSponsors = getFilteredSponsors();
 
@@ -57,7 +57,7 @@ const Sponsors = () => {
         setSponsorFilters({ industries: newIndustries });
     };
 
-    const handleEditSponsor = (sponsor: any) => {
+    const handleEditSponsor = (sponsor: Sponsor) => {
         setEditingSponsor(sponsor);
         setIsAddDialogOpen(true);
     };
@@ -103,7 +103,7 @@ const Sponsors = () => {
                     {/* Header */}
                     <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div>
-                            <h1 className="text-4xl font-serif font-bold mb-2">Sponsorship Analysis</h1>
+                            <h1 className="text-4xl font-serif font-bold mb-2 text-black">Sponsorship Analysis</h1>
                             <p className="text-lg text-muted-foreground">
                                 Explore sponsors and analyze sponsorship dynamics
                             </p>
@@ -111,7 +111,7 @@ const Sponsors = () => {
 
                         <Dialog open={isAddDialogOpen} onOpenChange={handleCloseDialog}>
                             <DialogTrigger asChild>
-                                <Button className="bg-intelligence-primary hover:bg-intelligence-primary-dark gap-2">
+                                <Button className="bg-emerald-700 hover:bg-emerald-800 text-white gap-2 shadow-lg shadow-emerald-700/20">
                                     <Plus className="w-4 h-4" />
                                     Add New Sponsor
                                 </Button>
@@ -127,7 +127,7 @@ const Sponsors = () => {
 
                     {/* Charts Row */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-                        <ChartCard title="Industry Distribution" description="Sponsors by business sector">
+                        <ChartCard title="Industry Distribution" description="Sponsors by business sector" className="bg-white border-emerald-100 shadow-sm">
                             <ResponsiveContainer width="100%" height={250}>
                                 <PieChart>
                                     <Pie
@@ -155,7 +155,7 @@ const Sponsors = () => {
                             </ResponsiveContainer>
                         </ChartCard>
 
-                        <ChartCard title="Top Investments" description="Sponsorship amount in Millions (₦)">
+                        <ChartCard title="Top Investments" description="Sponsorship amount in Millions (₦)" className="bg-white border-emerald-100 shadow-sm">
                             <ResponsiveContainer width="100%" height={250}>
                                 <BarChart data={investmentData}>
                                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
@@ -168,7 +168,7 @@ const Sponsors = () => {
                                             borderRadius: "8px",
                                         }}
                                     />
-                                    <Bar dataKey="amount" fill="hsl(var(--intelligence-accent))" radius={[8, 8, 0, 0]} />
+                                    <Bar dataKey="amount" fill="#059669" radius={[8, 8, 0, 0]} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </ChartCard>
@@ -193,8 +193,8 @@ const Sponsors = () => {
                                     className={cn(
                                         "cursor-pointer transition-colors",
                                         (sponsorFilters.industries || []).includes(industry)
-                                            ? "bg-intelligence-primary hover:bg-intelligence-primary-dark"
-                                            : "border-border hover:bg-intelligence-primary/10"
+                                            ? "bg-emerald-700 hover:bg-emerald-800"
+                                            : "border-emerald-100 hover:bg-emerald-50 text-emerald-800"
                                     )}
                                     onClick={() => handleIndustryToggle(industry)}
                                 >
@@ -211,16 +211,16 @@ const Sponsors = () => {
                         </p>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="outline" size="sm" className="gap-2 border-border">
+                                <Button variant="outline" size="sm" className="gap-2 border-emerald-100 text-emerald-900 hover:bg-emerald-50">
                                     <Download className="w-4 h-4" />
                                     Export
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="bg-background border-border text-foreground">
-                                <DropdownMenuItem onClick={() => exportToJSON(filteredSponsors, "lagos_sponsors_export")} className="hover:bg-intelligence-primary/10">
+                                <DropdownMenuItem onClick={() => exportToJSON(filteredSponsors, "lagos_sponsors_export")} className="hover:bg-emerald-50 text-emerald-900">
                                     Export as JSON
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => exportToCSV(filteredSponsors.map(s => ({ name: s.name, industry: s.industry, totalSponsorship: s.totalSponsorship, averageROI: s.averageROI })), "lagos_sponsors_export")} className="hover:bg-intelligence-primary/10">
+                                <DropdownMenuItem onClick={() => exportToCSV(filteredSponsors.map(s => ({ name: s.name, industry: s.industry, totalSponsorship: s.totalSponsorship, averageROI: s.averageROI })), "lagos_sponsors_export")} className="hover:bg-emerald-50 text-emerald-900">
                                     Export as CSV
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -231,7 +231,7 @@ const Sponsors = () => {
                     {filteredSponsors.length === 0 ? (
                         <div className="text-center py-20 bg-background/50 rounded-xl border-2 border-dashed border-border">
                             <p className="text-lg text-muted-foreground">No sponsors found matching your filters.</p>
-                            <Button variant="outline" onClick={resetSponsorFilters} className="mt-4 border-intelligence-primary/50 hover:bg-intelligence-primary/10">
+                            <Button variant="outline" onClick={resetSponsorFilters} className="mt-4 border-emerald-700 text-emerald-700 hover:bg-emerald-50">
                                 Reset Filters
                             </Button>
                         </div>

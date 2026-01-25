@@ -15,8 +15,10 @@ import {
     Check,
     Loader2,
     DollarSign,
-    Zap
+    Zap,
+    ImageIcon
 } from "lucide-react";
+import FileUploader from "@/components/common/FileUploader";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,7 +42,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Industry, SponsorshipTier } from "@/types/intelligence";
+import { Industry, SponsorshipTier, Sponsor } from "@/types/intelligence";
 import { useIntelligenceStore } from "@/stores/intelligenceStore";
 import { toast } from "sonner";
 
@@ -94,17 +96,9 @@ const AddSponsorForm: React.FC<AddSponsorFormProps> = ({ onClose, onSuccess, ini
         return `₦${val}`;
     };
 
-    const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const base64 = reader.result as string;
-                setPreviewUrl(base64);
-                form.setValue("logo", base64);
-            };
-            reader.readAsDataURL(file);
-        }
+    const handleLogoUpload = (url: string) => {
+        setPreviewUrl(url);
+        form.setValue("logo", url);
     };
 
     const onSubmit = (values: SponsorFormValues) => {
@@ -119,10 +113,10 @@ const AddSponsorForm: React.FC<AddSponsorFormProps> = ({ onClose, onSuccess, ini
 
         try {
             if (isEditing) {
-                updateSponsor(initialData.id, values as any);
+                updateSponsor(initialData.id, values as Partial<Sponsor>);
                 toast.success("Sponsor profile updated!");
             } else {
-                addSponsor({
+                const sponsorData = {
                     ...values,
                     eventsSponsored: [],
                     totalSponsorship: 0,
@@ -134,7 +128,9 @@ const AddSponsorForm: React.FC<AddSponsorFormProps> = ({ onClose, onSuccess, ini
                         incomeLevel: "All",
                         interests: ["General"]
                     }
-                } as any);
+                };
+                const { logo, ...rest } = values; // Just to make it cleaner
+                addSponsor(sponsorData as Omit<Sponsor, 'id' | 'activeSince'>);
                 toast.success("Sponsor profile created!");
             }
 
@@ -179,26 +175,36 @@ const AddSponsorForm: React.FC<AddSponsorFormProps> = ({ onClose, onSuccess, ini
                             <div className="flex flex-col items-center space-y-4">
                                 <div className="relative group">
                                     <div className={cn(
-                                        "w-32 h-32 rounded-full border-2 border-dashed flex items-center justify-center overflow-hidden transition-all bg-muted/20 hover:bg-muted/30",
-                                        previewUrl ? "border-intelligence-primary" : "border-white/10"
+                                        "w-32 h-32 rounded-3xl border-2 border-dashed flex items-center justify-center overflow-hidden transition-all bg-white/5 hover:bg-white/10",
+                                        previewUrl ? "border-intelligence-primary shadow-lg shadow-intelligence-primary/20" : "border-white/10"
                                     )}>
                                         {previewUrl ? (
-                                            <img src={previewUrl} alt="Logo" className="w-full h-full object-cover" />
+                                            <img src={previewUrl} alt="Logo" className="w-full h-full object-contain p-2" />
                                         ) : (
-                                            <Building2 className="w-12 h-12 text-muted-foreground" />
+                                            <Building2 className="w-12 h-12 text-muted-foreground opacity-20" />
                                         )}
-                                        <input
-                                            type="file"
-                                            className="absolute inset-0 opacity-0 cursor-pointer"
-                                            onChange={handleLogoUpload}
-                                            accept="image/*"
+                                    </div>
+                                    <div className="mt-4 w-full">
+                                        <FileUploader
+                                            bucket="sponsor-logos"
+                                            path="logos"
+                                            onUploadComplete={handleLogoUpload}
+                                            label={previewUrl ? "Change Logo" : "Upload Logo"}
                                         />
                                     </div>
-                                    <div className="absolute -bottom-1 -right-1 bg-intelligence-primary p-2 rounded-full shadow-lg">
-                                        <Plus className="w-4 h-4 text-white" />
-                                    </div>
+                                    {previewUrl && (
+                                        <button
+                                            onClick={() => {
+                                                setPreviewUrl(null);
+                                                form.setValue("logo", "");
+                                            }}
+                                            className="absolute -top-2 -right-2 p-1.5 bg-red-500/20 text-red-500 hover:bg-red-500 hover:text-white rounded-full transition-all border border-red-500/50"
+                                        >
+                                            <X className="w-3 h-3" />
+                                        </button>
+                                    )}
                                 </div>
-                                <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Company Logo</p>
+                                <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Company Brand Identity</p>
                             </div>
 
                             {/* Info Column */}

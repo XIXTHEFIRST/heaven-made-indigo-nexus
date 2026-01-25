@@ -20,10 +20,19 @@ export const CoachChat = () => {
         }
     }, [messages, isTyping]);
 
-    const handleSend = async () => {
-        if (!inputValue.trim()) return;
+    const SUGGESTED_QUESTIONS = [
+        "What are the major market gaps?",
+        "Tell me about Lagos Fashion Week",
+        "How can I match with a sponsor?",
+        "What is GTBank's strategy?"
+    ];
 
-        const msg = inputValue;
+    const INSIGHT_OF_THE_DAY = "Sustainable fashion is the #1 trending sponsor keyword for Q3 2025.";
+
+    const handleSend = async (content?: string) => {
+        const msg = content || inputValue;
+        if (!msg.trim()) return;
+
         setInputValue("");
         setIsTyping(true);
         await sendMessage(msg);
@@ -38,7 +47,7 @@ export const CoachChat = () => {
                         initial={{ opacity: 0, y: 20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className="mb-4 w-[400px] h-[600px] glass-premium border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+                        className="mb-4 w-[450px] h-[650px] glass-premium border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
                     >
                         {/* Header */}
                         <div className="p-4 bg-gradient-to-r from-intelligence-primary/20 to-intelligence-accent/10 border-b border-white/10 flex items-center justify-between">
@@ -50,7 +59,7 @@ export const CoachChat = () => {
                                     <h3 className="text-sm font-bold text-white">Intelligence Coach</h3>
                                     <div className="flex items-center gap-1.5">
                                         <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                                        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">Active Insight</span>
+                                        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">A- Insight System</span>
                                     </div>
                                 </div>
                             </div>
@@ -74,6 +83,15 @@ export const CoachChat = () => {
                             </div>
                         </div>
 
+                        {/* Insight of the Day Banner */}
+                        <div className="px-4 py-2 bg-intelligence-primary/10 border-b border-white/5 flex items-center gap-3">
+                            <Bot className="w-4 h-4 text-intelligence-primary" />
+                            <div className="flex-1 overflow-hidden">
+                                <p className="text-[10px] text-intelligence-primary font-bold uppercase tracking-widest mb-0.5">Insight of the Day</p>
+                                <p className="text-[11px] text-white/80 italic line-clamp-1">{INSIGHT_OF_THE_DAY}</p>
+                            </div>
+                        </div>
+
                         {/* Chat Body */}
                         <div
                             ref={scrollRef}
@@ -88,10 +106,10 @@ export const CoachChat = () => {
                                     )}
                                 >
                                     <div className={cn(
-                                        "p-3 rounded-2xl text-sm leading-relaxed",
+                                        "p-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap",
                                         msg.role === 'user'
                                             ? "bg-intelligence-primary text-black font-medium rounded-tr-none"
-                                            : "glass-dark border border-white/5 text-white rounded-tl-none"
+                                            : "glass-dark border border-white/5 text-white rounded-tl-none font-light"
                                     )}>
                                         {msg.content}
                                     </div>
@@ -105,13 +123,28 @@ export const CoachChat = () => {
                                     <div className="p-2 rounded-xl glass-dark border border-white/5">
                                         <Loader2 className="w-4 h-4 animate-spin" />
                                     </div>
-                                    <span className="text-[10px] uppercase font-bold tracking-widest animate-pulse">Analyzing...</span>
+                                    <span className="text-[10px] uppercase font-bold tracking-widest animate-pulse">Consulting Database...</span>
                                 </div>
                             )}
                         </div>
 
+                        {/* Suggested Questions */}
+                        {!isTyping && messages.length <= 1 && (
+                            <div className="px-4 py-2 flex flex-wrap gap-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                                {SUGGESTED_QUESTIONS.map((q, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => handleSend(q)}
+                                        className="text-[10px] bg-white/5 border border-white/10 hover:bg-intelligence-primary/10 hover:border-intelligence-primary/50 text-white/70 hover:text-white px-3 py-1.5 rounded-full transition-all"
+                                    >
+                                        {q}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+
                         {/* Input Area */}
-                        <div className="p-4 bg-white/5 border-t border-white/5">
+                        <div className="p-4 bg-black/20 border-t border-white/5">
                             <div className="relative">
                                 <Input
                                     placeholder="Ask for fashion intel..."
@@ -122,15 +155,18 @@ export const CoachChat = () => {
                                 />
                                 <Button
                                     size="icon"
-                                    onClick={handleSend}
+                                    onClick={() => handleSend()}
                                     className="absolute right-1.5 top-1.5 h-9 w-9 bg-intelligence-primary hover:bg-intelligence-primary-dark text-black rounded-lg"
                                 >
                                     <Send className="w-4 h-4" />
                                 </Button>
                             </div>
-                            <div className="mt-2 flex items-center gap-4 text-[9px] text-muted-foreground uppercase font-bold tracking-tighter overflow-hidden">
-                                <span className="flex items-center gap-1 shrink-0"><Sparkles className="w-3 h-3 text-intelligence-primary" /> Gemini Powered</span>
-                                <span className="flex items-center gap-1 shrink-0"><Bot className="w-3 h-3 text-intelligence-accent" /> Real-time Research</span>
+                            <div className="mt-2 flex items-center justify-between text-[9px] text-muted-foreground uppercase font-bold tracking-tighter overflow-hidden">
+                                <div className="flex items-center gap-4">
+                                    <span className="flex items-center gap-1 shrink-0 text-intelligence-primary"><Sparkles className="w-3 h-3" /> Gemini 2.0</span>
+                                    <span className="flex items-center gap-1 shrink-0"><Bot className="w-3 h-3 text-intelligence-accent" /> Live Intelligence</span>
+                                </div>
+                                <span className="text-white/20">v1.2 Enhanced</span>
                             </div>
                         </div>
                     </motion.div>

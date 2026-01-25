@@ -28,7 +28,7 @@ export const StatCard = ({
                 <div className="flex items-start justify-between">
                     <div className="flex-1">
                         <p className="text-sm font-medium text-muted-foreground mb-1">{title}</p>
-                        <h3 className="text-3xl font-bold tracking-tight">{value}</h3>
+                        <h3 className="text-3xl font-bold tracking-tight text-black">{value}</h3>
                         {trend && (
                             <div className="flex items-center gap-1 mt-2">
                                 <span
